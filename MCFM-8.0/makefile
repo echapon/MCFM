@@ -2224,7 +2224,7 @@ else
 ifeq ($(PDFROUTINES),LHAPDF)
    PARTONFILES += \
    alfamz_lhapdf.o \
-   fdist_lhapdf.o \
+   fdist_lhapdf2.o \
    pdfwrap_lhapdf.o \
 	EPS09v2.o \
 	eks98r_wrap.o \

@@ -883,16 +883,16 @@ c--- for single top + b, make sure to use two different scales
          if (PDFerrors) then
 !$omp critical(PDFerrors)
             call InitPDF(currentPDF)
-            call fdist(ih1,xx(1),facscale_H,fx1_H)
-            call fdist(ih2,xx(2),facscale_H,fx2_H)
-            call fdist(ih1,xx(1),facscale_L,fx1_L)
-            call fdist(ih2,xx(2),facscale_L,fx2_L)
+            call fdist(ih1,xx(1),facscale_H,fx1_H,0)
+            call fdist(ih2,xx(2),facscale_H,fx2_H,1)
+            call fdist(ih1,xx(1),facscale_L,fx1_L,0)
+            call fdist(ih2,xx(2),facscale_L,fx2_L,1)
 !$omp end critical(PDFerrors)
          else
-            call fdist(ih1,xx(1),facscale_H,fx1_H)
-            call fdist(ih2,xx(2),facscale_H,fx2_H)
-            call fdist(ih1,xx(1),facscale_L,fx1_L)
-            call fdist(ih2,xx(2),facscale_L,fx2_L)
+            call fdist(ih1,xx(1),facscale_H,fx1_H,0)
+            call fdist(ih2,xx(2),facscale_H,fx2_H,1)
+            call fdist(ih1,xx(1),facscale_L,fx1_L,0)
+            call fdist(ih2,xx(2),facscale_L,fx2_L,1)
          endif
         do j=-nf,nf
         fx1z_H(j)=0._dp
@@ -920,12 +920,12 @@ c--- usual case
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih1,xx(1),facscale,fx1)
-              call fdist(ih2,xx(2),facscale,fx2)
+              call fdist(ih1,xx(1),facscale,fx1,0)
+              call fdist(ih2,xx(2),facscale,fx2,1)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,xx(1),facscale,fx1)
-              call fdist(ih2,xx(2),facscale,fx2)
+              call fdist(ih1,xx(1),facscale,fx1,0)
+              call fdist(ih2,xx(2),facscale,fx2,1)
            endif
 c      endif
       endif
@@ -943,12 +943,12 @@ c--- for single top + b, make sure to use two different scales
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih1,x1onz,facscale_H,fx1z_H)
-              call fdist(ih1,x1onz,facscale_L,fx1z_L)
+              call fdist(ih1,x1onz,facscale_H,fx1z_H,0)
+              call fdist(ih1,x1onz,facscale_L,fx1z_L,1)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,x1onz,facscale_H,fx1z_H)
-              call fdist(ih1,x1onz,facscale_L,fx1z_L)
+              call fdist(ih1,x1onz,facscale_H,fx1z_H,0)
+              call fdist(ih1,x1onz,facscale_L,fx1z_L,1)
            endif
         else
 c--- for comparison with C. Oleari's e+e- --> QQbg calculation
@@ -961,10 +961,10 @@ c--- usual case
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih1,x1onz,facscale,fx1z)
+              call fdist(ih1,x1onz,facscale,fx1z,0)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,x1onz,facscale,fx1z)
+              call fdist(ih1,x1onz,facscale,fx1z,1)
            endif
 c--- APPLgrid - set factor
 c            f_X1overZ = 1._dp
@@ -980,12 +980,12 @@ c--- for single top + b, make sure to use two different scales
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih2,x2onz,facscale_H,fx2z_H)
-              call fdist(ih2,x2onz,facscale_L,fx2z_L)
+              call fdist(ih2,x2onz,facscale_H,fx2z_H,0)
+              call fdist(ih2,x2onz,facscale_L,fx2z_L,1)
 !$omp end critical(PDFerrors)
           else
-             call fdist(ih2,x2onz,facscale_H,fx2z_H)
-             call fdist(ih2,x2onz,facscale_L,fx2z_L)
+             call fdist(ih2,x2onz,facscale_H,fx2z_H,0)
+             call fdist(ih2,x2onz,facscale_L,fx2z_L,1)
           endif
         else
 c--- for comparison with C. Oleari's e+e- --> QQbg calculation
@@ -998,10 +998,10 @@ c--- usual case
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih2,x2onz,facscale,fx2z)
+              call fdist(ih2,x2onz,facscale,fx2z,0)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih2,x2onz,facscale,fx2z)
+              call fdist(ih2,x2onz,facscale,fx2z,1)
            endif
 c--- APPLgrid - set factor
 c            f_X2overZ = 1._dp

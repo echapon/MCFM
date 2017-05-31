@@ -9,7 +9,6 @@ c
       double precision f2a,f2p,f2n,uva,dva,uba,dba,sa,ca,ba,ga,
      1 uv,dv,ub,db,s,c,b,g
       dimension qpdf(10)
-      double precision estar(-6:6),ncteq(-6:6)
       integer :: iwrp = -10
       character*72 filename,checkpath,filename2,filename3
       Integer :: Aw, openchannelw, orderw, psetw, inidssz,choosew
@@ -45,26 +44,18 @@ c        read(21,*) repnum
        endif
 c       repnum=$3
 
-        if (choosew.eq.1) then
-        call DSSZratiose(X,Q,Aw,psetw,qpdf(1),qpdf(2),qpdf(3),qpdf(4),
+        if (Aw.gt.1) then
+          if (choosew.eq.1) then
+          call DSSZratiose(X,Q,Aw,psetw,qpdf(1),qpdf(2),qpdf(3),qpdf(4),
      .           qpdf(5),qpdf(6),qpdf(7),qpdf(8))
-        else if (choosew.eq.0) then
-        call EPS09(orderw,psetw,Aw,x,q,qpdf(1),qpdf(2),qpdf(3),
+          else if (choosew.eq.0) then
+          call EPS09(orderw,psetw,Aw,x,q,qpdf(1),qpdf(2),qpdf(3),
      .      qpdf(4),qpdf(5),qpdf(6),qpdf(7),qpdf(8))
-        else
 
-        call evolvePDFm(2,x,q,estar)
-        call evolvePDFm(3,x,q,ncteq)
-        qpdf(8)=ncteq(0)/estar(0)
-        qpdf(1)=(ncteq(2)-ncteq(-2))/(estar(2)-estar(-2))
-        qpdf(2)=(ncteq(1)-ncteq(-1))/(estar(1)-estar(-1))
-        qpdf(3)=ncteq(-2)/estar(-2)
-        qpdf(4)=ncteq(-1)/estar(-1)
-        qpdf(5)=ncteq(3)/estar(3)
-        qpdf(6)=ncteq(4)/estar(4)
-        qpdf(7)=ncteq(5)/estar(5)
+          endif
+        else
+           qpdf = 1
         endif
-c       endif
 
       qpdf(9)=qpdf(8)
       

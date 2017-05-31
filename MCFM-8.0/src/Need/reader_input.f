@@ -306,9 +306,13 @@ c--- pdf options
       read(20,*) NSET
       if (verbose) call writeinput(6,' * ',' ','NSET')
       read(20,*) PDFname
-      if (verbose) call writeinput(6,' * ',' ','LHAPDF group')
+      if (verbose) call writeinput(6,' * ',' ','LHAPDF group 1')
       read(20,*) PDFmember
-      if (verbose) call writeinput(6,' * ',' ','LHAPDF set')
+      if (verbose) call writeinput(6,' * ',' ','LHAPDF set 1')
+      read(20,*) PDFname2
+      if (verbose) call writeinput(6,' * ',' ','LHAPDF group 2')
+      read(20,*) PDFmember2
+      if (verbose) call writeinput(6,' * ',' ','LHAPDF set 2')
 
       if (verbose) write(6,*)
       read(20,99) line

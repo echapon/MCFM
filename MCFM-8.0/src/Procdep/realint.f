@@ -814,12 +814,12 @@ c--- and set all PDF entries to zero
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih1,xx1,dipscale(nd),fx1)
-              call fdist(ih2,xx2,dipscale(nd),fx2)
+              call fdist(ih1,xx1,dipscale(nd),fx1,0)
+              call fdist(ih2,xx2,dipscale(nd),fx2,1)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,xx1,dipscale(nd),fx1)
-              call fdist(ih2,xx2,dipscale(nd),fx2)
+              call fdist(ih1,xx1,dipscale(nd),fx1,0)
+              call fdist(ih2,xx2,dipscale(nd),fx2,1)
            endif
             do j=-nf,nf
             dipfx1(nd,j)=fx1(j)
@@ -841,16 +841,16 @@ c--- for single top + b, make sure to use two different scales
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih1,xx1,facscale_H,fx1_H)
-              call fdist(ih2,xx2,facscale_H,fx2_H)
-              call fdist(ih1,xx1,facscale_L,fx1_L)
-              call fdist(ih2,xx2,facscale_L,fx2_L)
+              call fdist(ih1,xx1,facscale_H,fx1_H,0)
+              call fdist(ih2,xx2,facscale_H,fx2_H,1)
+              call fdist(ih1,xx1,facscale_L,fx1_L,0)
+              call fdist(ih2,xx2,facscale_L,fx2_L,1)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,xx1,facscale_H,fx1_H)
-              call fdist(ih2,xx2,facscale_H,fx2_H)
-              call fdist(ih1,xx1,facscale_L,fx1_L)
-              call fdist(ih2,xx2,facscale_L,fx2_L)
+              call fdist(ih1,xx1,facscale_H,fx1_H,0)
+              call fdist(ih2,xx2,facscale_H,fx2_H,1)
+              call fdist(ih1,xx1,facscale_L,fx1_L,0)
+              call fdist(ih2,xx2,facscale_L,fx2_L,1)
            endif
         do j=-nf,nf
           if (j == 0) then  ! heavy quark line has gluon init. state
@@ -881,12 +881,12 @@ c--- usual case
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDF(currentPDF)
-              call fdist(ih1,xx1,facscale,fx1)
-              call fdist(ih2,xx2,facscale,fx2)
+              call fdist(ih1,xx1,facscale,fx1,0)
+              call fdist(ih2,xx2,facscale,fx2,1)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,xx1,facscale,fx1)
-              call fdist(ih2,xx2,facscale,fx2)
+              call fdist(ih1,xx1,facscale,fx1,0)
+              call fdist(ih2,xx2,facscale,fx2,1)
            endif
 c        endif
         endif
