@@ -27,3 +27,10 @@
 *.exe
 *.out
 *.app
+
+# log files and other outputs
+*.log
+*.top
+*dvegas*.grid
+*.dvi
+*.pdf

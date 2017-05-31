@@ -1,9 +1,9 @@
 # Makefile routine.
 
 # Replace this with the location of Cernlib on your system (if desired)
-CERNLIB     = 
+CERNLIB     = /usr/share/cernlib/
 # Replace this with the location of LHAPDF on your system (if desired)
-LHAPDFLIB   = 
+LHAPDFLIB   = /usr/share/lhapdf-6.1.6/lib
 
 # Flag for compiling with OpenMP (YES) or not (anything else)
 USEOMP = YES
@@ -55,14 +55,14 @@ LINKONELOOP     = NO
 #   NATIVE -- internal routines
 #   PDFLIB -- PDFLIB v8.04
 #   LHAPDF -- Les Houches library
-PDFROUTINES = NATIVE
+PDFROUTINES = LHAPDF
 
 # Set this to NO/YES/FROOT
 #   NO  -- no n-tuple output or unweighting is possible
 #   YES -- n-tuples, unweighting available - requires CERNLIB libraries
 #   FROOT -- n-tuples, unweighting available -- requires ROOT libraries;
 #            output uses the FROOT package of P. Nadolsky.
-NTUPLES = NO
+NTUPLES = YES
 
 ifeq ($(origin FC),environment)
     $(info Inheriting FC, CXX from environment)
@@ -2225,7 +2225,10 @@ ifeq ($(PDFROUTINES),LHAPDF)
    PARTONFILES += \
    alfamz_lhapdf.o \
    fdist_lhapdf.o \
-   pdfwrap_lhapdf.o
+   pdfwrap_lhapdf.o \
+	EPS09v2.o \
+	eks98r_wrap.o \
+	DSSZratios3.o
    LIBDIR += -L$(LHAPDFLIB)
    LIBFLAGS += -lLHAPDF
    PDFMSG='   ----> MCFM compiled with LHAPDF routines <----'

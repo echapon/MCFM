@@ -44,8 +44,8 @@
 'CT14.NN'	[pdlabel]
 4		[NGROUP, see PDFLIB]
 46		[NSET - see PDFLIB]
-'MSTW2008nlo90cl.LHgrid'		[LHAPDF group]
--1           	[LHAPDF set]
+'CT14nlo'		[LHAPDF group]
+1           	[LHAPDF set]
 
 [Jet definition and event cuts]
 0d0		[m34min]
