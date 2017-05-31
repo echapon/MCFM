@@ -1,0 +1,7 @@
+1               !! nPDFs set 1=DSSZ 0=EPS09 2=nCTEQ
+2		!! 2=NLO 1=LO
+1		!! nPDF set (1=central, 2...31/51 = error for EPS09/DSSZ)
+1		!! nucleus A (1 for no nuclear effects)
+
+
+

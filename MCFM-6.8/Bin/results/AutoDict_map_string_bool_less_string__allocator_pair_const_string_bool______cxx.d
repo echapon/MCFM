@@ -1,0 +1,4 @@
+
+# DO NOT DELETE
+AutoDict_map_string_bool_less_string__allocator_pair_const_string_bool______cxx.so: /home/emilien/root/include/cintdictversion.h /home/emilien/root/include/RVersion.h
+AutoDict_map_string_bool_less_string__allocator_pair_const_string_bool______cxx__ROOTBUILDVERSION= 5.34/10

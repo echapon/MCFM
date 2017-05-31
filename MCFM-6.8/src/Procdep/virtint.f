@@ -1042,10 +1042,10 @@ c--- calculate PDF's
       if ( (case .eq. 'qg_tbq') .or. (case .eq. '4ftwdk')
      & .or.(case .eq. 'dk_4ft')) then
 c--- for single top + b, make sure to use two different scales
-        call fdist(ih1,xx(1),facscale_H,fx1_H)
-        call fdist(ih2,xx(2),facscale_H,fx2_H)
-        call fdist(ih1,xx(1),facscale_L,fx1_L)
-        call fdist(ih2,xx(2),facscale_L,fx2_L)
+        call fdist(ih1,xx(1),facscale_H,fx1_H,0)
+        call fdist(ih2,xx(2),facscale_H,fx2_H,1)
+        call fdist(ih1,xx(1),facscale_L,fx1_L,0)
+        call fdist(ih2,xx(2),facscale_L,fx2_L,1)
         do j=-nf,nf
         fx1z_H(j)=0d0
         fx2z_H(j)=0d0
@@ -1069,8 +1069,8 @@ c          fx2(0)=1d0
 c          fx2(1)=1d0
 c        else   
 c--- usual case            
-          call fdist(ih1,xx(1),facscale,fx1)
-          call fdist(ih2,xx(2),facscale,fx2)
+          call fdist(ih1,xx(1),facscale,fx1,0)
+          call fdist(ih2,xx(2),facscale,fx2,1)
 c      endif
       endif
       
@@ -1084,8 +1084,8 @@ c      endif
 c--- for single top + b, make sure to use two different scales
         if ((case .eq. 'qg_tbq') .or. (case .eq. '4ftwdk')
      &  .or.(case .eq. 'dk_4ft')) then
-          call fdist(ih1,x1onz,facscale_H,fx1z_H)
-          call fdist(ih1,x1onz,facscale_L,fx1z_L)
+          call fdist(ih1,x1onz,facscale_H,fx1z_H,0)
+          call fdist(ih1,x1onz,facscale_L,fx1z_L,0)
         else
 c--- for comparison with C. Oleari's e+e- --> QQbg calculation
 c          if (runstring(1:5) .eq. 'carlo') then
@@ -1094,7 +1094,7 @@ c          fx1z(j)=0d0
 c          enddo
 c          else   
 c--- usual case            
-            call fdist(ih1,x1onz,facscale,fx1z)
+            call fdist(ih1,x1onz,facscale,fx1z,0)
 c--- APPLgrid - set factor
             f_X1overZ = 1d0
 c--- APPLgrid - end
@@ -1106,8 +1106,8 @@ c          endif
 c--- for single top + b, make sure to use two different scales
         if ((case .eq. 'qg_tbq') .or. (case .eq. '4ftwdk')
      &  .or.(case .eq. 'dk_4ft')) then
-          call fdist(ih2,x2onz,facscale_H,fx2z_H)
-          call fdist(ih2,x2onz,facscale_L,fx2z_L)
+          call fdist(ih2,x2onz,facscale_H,fx2z_H,1)
+          call fdist(ih2,x2onz,facscale_L,fx2z_L,1)
         else
 c--- for comparison with C. Oleari's e+e- --> QQbg calculation
 c          if (runstring(1:5) .eq. 'carlo') then
@@ -1116,7 +1116,7 @@ c          fx2z(j)=0d0
 c          enddo
 c          else   
 c--- usual case            
-            call fdist(ih2,x2onz,facscale,fx2z)
+            call fdist(ih2,x2onz,facscale,fx2z,1)
 c--- APPLgrid - set factor
             f_X2overZ = 1d0
 c--- APPLgrid - end

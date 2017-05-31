@@ -1,0 +1,7 @@
+NPDFSET               !! nPDFs set 1=DSSZ 0=EPS09 2=nCTEQ
+ORDER		!! 2=NLO 1=LO
+NPDFERR		!! nPDF set (1=central, 2...31/51 = error for EPS09/DSSZ)
+NUCLA		!! nucleus A (1 for no nuclear effects)
+
+
+

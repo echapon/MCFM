@@ -182,8 +182,8 @@ c--- initialize a PDF set here, if calculating errors
       endif
       
 c--- calculate PDF's  
-      call fdist(ih1,xx(1),facscale,fx1)
-      call fdist(ih2,xx(2),facscale,fx2)
+      call fdist(ih1,xx(1),facscale,fx1,0)
+      call fdist(ih2,xx(2),facscale,fx2,1)
 
       do j=-nflav,nflav
       do k=-nflav,nflav    

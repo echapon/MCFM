@@ -34,3 +34,5 @@
 *dvegas*.grid
 *.dvi
 *.pdf
+*.dat
+*.root

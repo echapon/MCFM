@@ -29,10 +29,12 @@ c--- for APPLgrid
       double precision rtsmin,sqrts,p1ext(4),p2ext(4),
      . p(mxpart,4),val
       integer j,k
+      integer inidssz(0)
       character*72 inputfile,workdir
       common/rtsmin/rtsmin
       common/energy/sqrts
       common/pext/p1ext,p2ext
+      COMMON / INITNPDF / INIDSSZ
       data p/mxpart*3d0,mxpart*4d0,mxpart*0d0,mxpart*5d0/
 
 * Welcome banner

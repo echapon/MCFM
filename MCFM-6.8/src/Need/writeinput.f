@@ -250,11 +250,17 @@ c--- catch special scale choices for stop+b process
       if ((tag .eq. 'NSET') .or. (writeall)) then
       write(unitno,fmt=f97) NSET,'NSET'
       endif
-      if ((tag .eq. 'LHAPDF group') .or. (writeall)) then
-      write(unitno,fmt=f96) PDFname,'LHAPDF group'
+      if ((tag .eq. 'LHAPDF group 1') .or. (writeall)) then
+      write(unitno,fmt=f96) PDFname,'LHAPDF group 1'
       endif
-      if ((tag .eq. 'LHAPDF set') .or. (writeall)) then
-      write(unitno,fmt=f97) PDFmember,'LHAPDF set'
+      if ((tag .eq. 'LHAPDF set 1') .or. (writeall)) then
+      write(unitno,fmt=f97) PDFmember,'LHAPDF set 1'
+      endif
+      if ((tag .eq. 'LHAPDF group 2') .or. (writeall)) then
+      write(unitno,fmt=f96) PDFname2,'LHAPDF group 2'
+      endif
+      if ((tag .eq. 'LHAPDF set 2') .or. (writeall)) then
+      write(unitno,fmt=f97) PDFmember2,'LHAPDF set 2'
       endif
 
       if (writeall) then

@@ -915,8 +915,8 @@ c--- and set all PDF entries to zero
             fx2(j)=0d0
           enddo
         else
-            call fdist(ih1,xx1,dipscale(nd),fx1)
-            call fdist(ih2,xx2,dipscale(nd),fx2)
+            call fdist(ih1,xx1,dipscale(nd),fx1,0)
+            call fdist(ih2,xx2,dipscale(nd),fx2,1)
             do j=-nf,nf
             dipfx1(nd,j)=fx1(j)
             dipfx2(nd,j)=fx2(j)
@@ -934,10 +934,10 @@ c--- and set all PDF entries to zero
       else
         if ((case .eq. 'qg_tbq') .or. (case .eq. '4ftwdk')) then
 c--- for single top + b, make sure to use two different scales
-          call fdist(ih1,xx1,facscale_H,fx1_H)
-          call fdist(ih2,xx2,facscale_H,fx2_H)
-          call fdist(ih1,xx1,facscale_L,fx1_L)
-          call fdist(ih2,xx2,facscale_L,fx2_L)
+          call fdist(ih1,xx1,facscale_H,fx1_H,0)
+          call fdist(ih2,xx2,facscale_H,fx2_H,1)
+          call fdist(ih1,xx1,facscale_L,fx1_L,0)
+          call fdist(ih2,xx2,facscale_L,fx2_L,1)
         do j=-nf,nf
           if (j .eq. 0) then  ! heavy quark line has gluon init. state
             fx1(j)=fx1_H(j)
@@ -964,8 +964,8 @@ c          fx2(0)=1d0
 c          fx2(1)=1d0
 c          else   
 c--- usual case            
-            call fdist(ih1,xx1,facscale,fx1)
-            call fdist(ih2,xx2,facscale,fx2)
+            call fdist(ih1,xx1,facscale,fx1,0)
+            call fdist(ih2,xx2,facscale,fx2,1)
 c        endif
         endif
       endif      

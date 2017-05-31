@@ -19,7 +19,8 @@ c---                1  --> counterterm for real radiation
       include 'jetlabel.f'
       include 'outputflags.f'
       double precision p(mxpart,4),wt,wt2,yrap,pt,r,yraptwo,etaraptwo,
-     & y3,y4,y5,pt3,pt4,pt5,Re5,y34,eta34,ylep,yjet,ptlep,ptjet
+     & y3,y4,y5,pt3,pt4,pt5,Re5,y34,eta34,ylep,yjet,ptlep,ptjet,
+     & etalablep,etalab3,etalab4,etarap
       integer switch,n,nplotmax,nproc
       character*4 tag
       logical first
@@ -49,6 +50,7 @@ c--- the plotting range
         jets=1
 c--- (Upper) limits for the plots
         ylep=6d0
+        etalablep=5d0
         yjet=3d0
         ptlep=100d0
         ptjet=80d0
@@ -71,9 +73,11 @@ c--- W rapidity and pseudorapidity
 c--- If nproc=1, plot e^+(4). If nproc=6, plot e^-(3).
       if(nproc .eq. 1) then
          y4=yrap(4,p)
+         etalab4=etarap(4,p)+0.465
          pt4=pt(4,p)
       else
          y3=yrap(3,p)
+         etalab3=etarap(3,p)+0.465
          pt3=pt(3,p)
       endif
 c---      eventpart=4+jets
@@ -133,10 +137,16 @@ c---   llplot:  equal to "lin"/"log" for linear/log scale
       if(nproc .eq. 1) then
          call bookplot(n,tag,'y(lep)',y4,wt,wt2,-ylep,ylep,0.2d0,'lin')
          n=n+1
+         call bookplot(n,tag,'etalab(lep)',etalab4,wt,wt2,-etalablep,
+     & etalablep,0.1d0,'lin')
+         n=n+1
          call bookplot(n,tag,'pt(lep)',pt4,wt,wt2,0d0,ptlep,2d0,'lin')
          n=n+1
       else            
          call bookplot(n,tag,'y(lep)',y3,wt,wt2,-ylep,ylep,0.2d0,'lin')
+         n=n+1
+         call bookplot(n,tag,'etalab(lep)',etalab3,wt,wt2,-etalablep,
+     & etalablep,0.5d0,'lin')
          n=n+1
          call bookplot(n,tag,'pt(lep)',pt3,wt,wt2,0d0,ptlep,2d0,'lin')
          n=n+1
