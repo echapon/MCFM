@@ -391,7 +391,8 @@ c--- write-out comment line
       if (verbose) write(6,*) '* ',line
 c--- settings for photon processes 
       read(20,*) frag
-      if (verbose) call writeinput(6,' * ',' ',kfrag)
+      ! if (verbose) call writeinput(6,' * ',' ',kfrag)
+      if (verbose) call writeinput(6,' * ',' ','frag')
       read(20,*) fragset
       if (verbose) call writeinput(6,' * ',' ','fragset')
       read(20,*) frag_scale
