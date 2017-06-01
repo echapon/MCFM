@@ -127,7 +127,7 @@ C Stop if the set specifications are wrong ones
 C *********************************************
 
       If (order .NE. 1 .and. order .NE. 2) then
-      Write(*,*) 'Wrong order!'
+      Write(*,*) 'Wrong order!', order
       Write(*,*) 'LO : order = 1'
       Write(*,*) 'NLO: order = 2'
       Stop

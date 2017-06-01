@@ -7,6 +7,7 @@
       integer Iprtn,ih,Irt,ih_call,ipdf
       include 'pdlabel.f'
       include 'vanillafiles.f'
+      include 'npdf.f'
       double precision xZ,xA,eks98r,xmu_safe
       integer mode,iZ,iA
       logical first,nucleon
@@ -15,8 +16,6 @@ c--- extra variables for MSTW08 implementation
       double precision u_val,d_val,u_sea,d_sea,s_sea,s_seabar
       double precision c_sea,c_seabar,b_sea,b_seabar,gluon
       double precision str,sbar,chm,cbar,bot,bbar,photon
-      integer inidssz
-      COMMON / INITNPDF / INIDSSZ
       data first/.true./
       save first
 c---  ih1=+1 proton 
@@ -63,8 +62,9 @@ C---set to zero if x out of range
           enddo
           return
       endif
- 
+!$omp critical(LHApdf) 
       call evolvePDFm(ipdf,x,xmu,fPDF)
+!$omp end critical(LHApdf) 
       if (ih.eq.1) then
         do Iprtn=-5,5
           fx(+Iprtn)=fPDF(+Iprtn)/x

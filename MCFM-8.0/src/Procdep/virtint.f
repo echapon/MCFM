@@ -883,16 +883,16 @@ c--- for single top + b, make sure to use two different scales
          if (PDFerrors) then
 !$omp critical(PDFerrors)
             call InitPDFm(0,currentPDF)
-            call InitPDFm(1,currentPDF)
             call fdist(ih1,xx(1),facscale_H,fx1_H,0)
-            call fdist(ih2,xx(2),facscale_H,fx2_H,1)
             call fdist(ih1,xx(1),facscale_L,fx1_L,0)
+            call InitPDFm(1,currentPDF)
+            call fdist(ih2,xx(2),facscale_H,fx2_H,1)
             call fdist(ih2,xx(2),facscale_L,fx2_L,1)
 !$omp end critical(PDFerrors)
          else
             call fdist(ih1,xx(1),facscale_H,fx1_H,0)
-            call fdist(ih2,xx(2),facscale_H,fx2_H,1)
             call fdist(ih1,xx(1),facscale_L,fx1_L,0)
+            call fdist(ih2,xx(2),facscale_H,fx2_H,1)
             call fdist(ih2,xx(2),facscale_L,fx2_L,1)
          endif
         do j=-nf,nf
@@ -921,8 +921,8 @@ c--- usual case
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDFm(0,currentPDF)
-              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx(1),facscale,fx1,0)
+              call InitPDFm(1,currentPDF)
               call fdist(ih2,xx(2),facscale,fx2,1)
 !$omp end critical(PDFerrors)
            else
@@ -945,13 +945,12 @@ c--- for single top + b, make sure to use two different scales
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDFm(0,currentPDF)
-              call InitPDFm(1,currentPDF)
               call fdist(ih1,x1onz,facscale_H,fx1z_H,0)
-              call fdist(ih1,x1onz,facscale_L,fx1z_L,1)
+              call fdist(ih1,x1onz,facscale_L,fx1z_L,0)
 !$omp end critical(PDFerrors)
            else
               call fdist(ih1,x1onz,facscale_H,fx1z_H,0)
-              call fdist(ih1,x1onz,facscale_L,fx1z_L,1)
+              call fdist(ih1,x1onz,facscale_L,fx1z_L,0)
            endif
         else
 c--- for comparison with C. Oleari's e+e- --> QQbg calculation
@@ -964,11 +963,10 @@ c--- usual case
            if (PDFerrors) then
 !$omp critical(PDFerrors)
               call InitPDFm(0,currentPDF)
-              call InitPDFm(1,currentPDF)
               call fdist(ih1,x1onz,facscale,fx1z,0)
 !$omp end critical(PDFerrors)
            else
-              call fdist(ih1,x1onz,facscale,fx1z,1)
+              call fdist(ih1,x1onz,facscale,fx1z,0)
            endif
 c--- APPLgrid - set factor
 c            f_X1overZ = 1._dp
@@ -983,13 +981,12 @@ c--- for single top + b, make sure to use two different scales
      &  .or.(kcase==kdk_4ft)) then
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDFm(0,currentPDF)
               call InitPDFm(1,currentPDF)
-              call fdist(ih2,x2onz,facscale_H,fx2z_H,0)
+              call fdist(ih2,x2onz,facscale_H,fx2z_H,1)
               call fdist(ih2,x2onz,facscale_L,fx2z_L,1)
 !$omp end critical(PDFerrors)
           else
-             call fdist(ih2,x2onz,facscale_H,fx2z_H,0)
+             call fdist(ih2,x2onz,facscale_H,fx2z_H,1)
              call fdist(ih2,x2onz,facscale_L,fx2z_L,1)
           endif
         else
@@ -1002,9 +999,8 @@ c          else
 c--- usual case            
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDFm(0,currentPDF)
               call InitPDFm(1,currentPDF)
-              call fdist(ih2,x2onz,facscale,fx2z,0)
+              call fdist(ih2,x2onz,facscale,fx2z,1)
 !$omp end critical(PDFerrors)
            else
               call fdist(ih2,x2onz,facscale,fx2z,1)

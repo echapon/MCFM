@@ -22,6 +22,7 @@ c--- by the strings 'lstring' and 'rstring'
       include 'jetcuts.f'
       include 'leptcuts.f'
       include 'lhapdf.f'
+      include 'npdf.f'
       include 'pdlabel.f'
       include 'removebr.f'
       include 'dynamicscale.f'
@@ -278,6 +279,12 @@ c--- catch special scale choices for stop+b process
       endif
       if ((tag == 'LHAPDF set 2') .or. (writeall)) then
       write(unitno,fmt=f97) PDFmember2,'LHAPDF set 2'
+      endif
+      if ((tag == 'nPDF group') .or. (writeall)) then
+      write(unitno,fmt=f96) nPDFname,'nPDF group'
+      endif
+      if ((tag == 'nPDF set') .or. (writeall)) then
+      write(unitno,fmt=f97) psetw,'nPDF set'
       endif
 
       if (writeall) then

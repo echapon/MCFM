@@ -36,6 +36,7 @@
       include 'jetcuts.f'
       include 'leptcuts.f'
       include 'lhapdf.f'
+      include 'npdf.f'
       include 'alfacut.f'
       include 'betacut.f'
       include 'pdlabel.f'
@@ -313,6 +314,17 @@ c--- pdf options
       if (verbose) call writeinput(6,' * ',' ','LHAPDF group 2')
       read(20,*) PDFmember2
       if (verbose) call writeinput(6,' * ',' ','LHAPDF set 2')
+      read(20,*) nPDFname
+      if (verbose) call writeinput(6,' * ',' ','nPDF group')
+      if (nPDFname.eq.'EPS09') then
+         choosew = 0
+      else if (nPDFname.eq.'DSSZ') then 
+         choosew = 1
+      else 
+         choosew = -1
+      endif
+      read(20,*) psetw
+      if (verbose) call writeinput(6,' * ',' ','nPDF set')
 
       if (verbose) write(6,*)
       read(20,99) line

@@ -9,40 +9,28 @@ c
       double precision f2a,f2p,f2n,uva,dva,uba,dba,sa,ca,ba,ga,
      1 uv,dv,ub,db,s,c,b,g
       dimension qpdf(10)
-      integer :: iwrp = -10
-      character*72 filename,checkpath,filename2,filename3
-      Integer :: Aw, openchannelw, orderw, psetw, inidssz,choosew
-      save iwrp
       integer repnum
-      COMMON / INITNPDF / INIDSSZ
+      include 'npdf.f'
+      include 'kpart.f'
 c      common/piasnumber/repnum
-            
+
       if(iwrp.eq.-10) then
+        Aw = a
         Call NextUnitCarlos(openchannelw)
-        filename=checkpath('./nPDFset')
-c        filename2=checkpath('input-pia.dat')
-        OPEN (openchannelw, file = filename, status='OLD', IOSTAT=iovar)
-c       open(unit=21,file=filename2)
-        If (iovar .NE. 0) Then
-          Write(*,*) 'Missing file: ',filename
-          stop
-        End If
-        read(openchannelw,*) choosew
-        read(openchannelw,*) orderw
-        read(openchannelw,*) psetw
-        read(openchannelw,*) Aw
-c        read(21,*) filename3
-c        read(21,*) repnum
         if (choosew.eq.1) then
         print*, ' DSSZ with', orderw, psetw, Aw, INIDSSZ
-        else if (choosew.eq.2) then
-        print*, ' nCTEQ with', orderw, psetw, Aw
-        else
+        else if (choosew.eq.0) then
         print*, ' EPS09 with', orderw, psetw, Aw
+        else
+        print*, ' No nPDF modifications'
         endif
         iwrp=10
        endif
 c       repnum=$3
+
+c       get the order from the global MCFM parameter
+        if (kpart.eq.klord) orderw = 1
+        else orderw = 2
 
         if (Aw.gt.1) then
           if (choosew.eq.1) then
@@ -51,7 +39,7 @@ c       repnum=$3
           else if (choosew.eq.0) then
           call EPS09(orderw,psetw,Aw,x,q,qpdf(1),qpdf(2),qpdf(3),
      .      qpdf(4),qpdf(5),qpdf(6),qpdf(7),qpdf(8))
-
+          else qpdf = 1
           endif
         else
            qpdf = 1

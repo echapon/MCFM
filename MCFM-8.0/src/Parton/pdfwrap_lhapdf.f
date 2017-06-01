@@ -29,6 +29,7 @@ c      endif
       
       oldPDFname=PDFname
       validPDF=.false.
+      PDFerrors=.false.
       i=0
    20 continue
       i=i+1    

@@ -37,17 +37,16 @@ C -- GZ
       include 'epinv2.f'
       include 'ehisto.f'
       include 'mpicommon.f'
+      include 'npdf.f'
 
 c--- for APPLgrid
 c      include 'ptilde.f'
 c      include 'APPLinclude.f'
       real(dp):: rtsmin,p1ext(4),p2ext(4),p(mxpart,4),val
       integer:: j,k
-      integer:: inidssz(0)
       character*72 inputfile,workdir
       common/rtsmin/rtsmin
       common/pext/p1ext,p2ext
-      COMMON / INITNPDF / INIDSSZ
       data p/mxpart*3._dp,mxpart*4._dp,mxpart*0._dp,mxpart*5._dp/
 
 !$omp threadprivate(/pext/)
@@ -133,6 +132,11 @@ c--- Note: version 6.4 onwards, scale cutoff with c.o.m. energy
       fragint_mode=.false. 
 * Initialize integer:: used in TensorReduction to zero
       TRtensorcontrol=0
+
+* Initialize nPDF stuff
+      inidssz = 0
+      iwrp = -10
+      Aw = 1
       
       return
       end

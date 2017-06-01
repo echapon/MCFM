@@ -11,7 +11,7 @@
       include 'facscale.f'
       include 'scale.f'
       real(dp), intent(in) ::zin,xb,QB
-      integer(dp), intent(in) ::ipdf
+      integer, intent(in) ::ipdf
       real(dp), intent(out) :: btau(-5:5,-1:3)
       real(dp)::
      & p0qiqiz(-1:0),p0qiqiz1(-1:0),p0ggz(-1:0),p0ggz1(-1:0),

@@ -54,7 +54,7 @@
 **************************************************************************
       IMPLICIT DOUBLE PRECISION (A-H, O-Z)
 c      implicit none
-      integer nx, nq, narg, nna, XA(4),A,i,k,j,inidssz, NA(3),sete
+      integer nx, nq, narg, nna, XA(4),A,i,k,j, NA(3),sete
       double precision XUVF(49,23,4), XDVF(49,23,4),XUBF(49,23,4),
      1     XDBF(49,23,4), XSF(49,23,4),x,
      2     XCF(49,23,4), XBF(49,23,4), XGF(49,23,4)
@@ -62,7 +62,7 @@ c      implicit none
       dimension ARRF(76) , XT(3)
       double precision ruv,rdv,rub,rdb,rb,rc,rg,rs,dsszfint
 C---
-      COMMON / INITNPDF / INIDSSZ
+      include 'npdf.f'
 c      SAVE XUVF, XDVF, XUBF, XDBF, XSF, XCF, XBF, XGF, NA, ARRF
 C---TABLE OF (X,Q2) SUPPORT POINTS 
 
