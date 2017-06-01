@@ -99,7 +99,7 @@ c--- write new nucleon distributions
         fx(+3)=s_seabar
         fx(+4)=c_seabar
         fx(+5)=b_seabar
-        fx(0)=gluon             
+        fx(0)=gluon       
         endif           
    76 format('*(Atomic number,mass)=(Z,A)=(',i4,',',i4,')*')                  
       return

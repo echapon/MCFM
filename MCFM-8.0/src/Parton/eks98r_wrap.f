@@ -1,8 +1,6 @@
 c
 c	LAZY WAY OF INCLUDING EPS09/DSSZ IN THE CALCULATION
 c	BY JUST SUBSTITUTING EKS98 BY A CALL TO EPS09/DSSZ (rates)
-c	nPDFset file should be placed in the working directory
-c	to input order, pset and A
 c
       double precision function eks98r(x,q,a,kpt)
       implicit double precision (a-h,o-z)
@@ -39,7 +37,8 @@ c       get the order from the global MCFM parameter
           else if (choosew.eq.0) then
           call EPS09(orderw,psetw,Aw,x,q,qpdf(1),qpdf(2),qpdf(3),
      .      qpdf(4),qpdf(5),qpdf(6),qpdf(7),qpdf(8))
-          else qpdf = 1
+          else 
+             qpdf = 1
           endif
         else
            qpdf = 1
@@ -49,7 +48,7 @@ c       get the order from the global MCFM parameter
       
       eks98r=qpdf(kpt)
     
-c        write(6,*) aw
+      ! write(6,*) aw
 c        stop
       return
       end
