@@ -19,7 +19,7 @@ c      common/piasnumber/repnum
             
       if(iwrp.eq.-10) then
         Call NextUnitCarlos(openchannelw)
-        filename=checkpath('nPDFset')
+        filename=checkpath('./nPDFset')
 c        filename2=checkpath('input-pia.dat')
         OPEN (openchannelw, file = filename, status='OLD', IOSTAT=iovar)
 c       open(unit=21,file=filename2)
