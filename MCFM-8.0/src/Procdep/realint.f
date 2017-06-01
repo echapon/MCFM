@@ -813,7 +813,8 @@ c--- and set all PDF entries to zero
         else
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx1,dipscale(nd),fx1,0)
               call fdist(ih2,xx2,dipscale(nd),fx2,1)
 !$omp end critical(PDFerrors)
@@ -840,7 +841,8 @@ c--- and set all PDF entries to zero
 c--- for single top + b, make sure to use two different scales
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx1,facscale_H,fx1_H,0)
               call fdist(ih2,xx2,facscale_H,fx2_H,1)
               call fdist(ih1,xx1,facscale_L,fx1_L,0)
@@ -880,7 +882,8 @@ c          else
 c--- usual case            
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx1,facscale,fx1,0)
               call fdist(ih2,xx2,facscale,fx2,1)
 !$omp end critical(PDFerrors)

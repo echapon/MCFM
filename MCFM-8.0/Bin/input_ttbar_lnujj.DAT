@@ -44,8 +44,10 @@
 'NNPDF30_nlo_as_0118'	[pdlabel]
 4		[NGROUP, see PDFLIB]
 46		[NSET - see PDFLIB]
-'NNPDF30_nlo_as_0118.LHgrid'		[LHAPDF group]
--1           	[LHAPDF set]
+'NNPDF30_nlo_as_0118.LHgrid'		[LHAPDF group 1]
+0           	[LHAPDF set 1]
+'NNPDF30_nlo_as_0118.LHgrid'		[LHAPDF group 2]
+0           	[LHAPDF set 2]
 
 [Jet definition and event cuts]
 0d0		[m34min]

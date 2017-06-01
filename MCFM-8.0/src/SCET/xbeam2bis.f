@@ -2,7 +2,7 @@
 !#### next-to-next-to-leading order beam functions
 !#### normalized to (as/(2 pi))^2 which has been extracted
 !########################################################
-      subroutine xbeam2bis(ih,zin,xb,QB,btau)
+      subroutine xbeam2bis(ih,zin,xb,QB,btau,ipdf)
       implicit none
       include 'types.f'
       include 'constants.f'
@@ -11,6 +11,7 @@
       include 'facscale.f'
       include 'scale.f'
       real(dp), intent(in) ::zin,xb,QB
+      integer(dp), intent(in) ::ipdf
       real(dp), intent(out) :: btau(-5:5,-1:3)
       real(dp)::
      & p0qiqiz(-1:0),p0qiqiz1(-1:0),p0ggz(-1:0),p0ggz1(-1:0),
@@ -144,8 +145,8 @@ c--- catch numerical problems
       I2qigz = I2qig(zb)
 
 ! calculate parton distribution
-      call fdist(ih,xb,facscale,fx0)
-      call fdist(ih,xb/zb,facscale,fx)
+      call fdist(ih,xb,facscale,fx0,ipdf)
+      call fdist(ih,xb/zb,facscale,fx,ipdf)
 
 ! calculate quark+antiquark sum
       fxq = zip

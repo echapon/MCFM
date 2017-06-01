@@ -77,16 +77,16 @@ c---  adjust for fixed H->bb BR if necessary
       call hardqq(s(1,2),musq,hard)
 
       if (order >= 0) then
-      call fdist(ih1,xx(1),facscale,beama0)
-      call fdist(ih2,xx(2),facscale,beamb0)
+      call fdist(ih1,xx(1),facscale,beama0,0)
+      call fdist(ih2,xx(2),facscale,beamb0,1)
       endif
       if (order >= 1) then
-      call xbeam1bis(ih1,z1,xx(1),QB(1),beama1)
-      call xbeam1bis(ih2,z2,xx(2),QB(2),beamb1)
+      call xbeam1bis(ih1,z1,xx(1),QB(1),beama1,0)
+      call xbeam1bis(ih2,z2,xx(2),QB(2),beamb1,1)
       endif
       if (order >= 2) then
-      call xbeam2bis(ih1,z1,xx(1),QB(1),beama2)
-      call xbeam2bis(ih2,z2,xx(2),QB(2),beamb2)
+      call xbeam2bis(ih1,z1,xx(1),QB(1),beama2,0)
+      call xbeam2bis(ih2,z2,xx(2),QB(2),beamb2,1)
       qqbZHtop(:)=zip
       qbqZHtop(:)=zip
       ggZH=zip

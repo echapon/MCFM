@@ -882,7 +882,8 @@ c--- calculate PDF's
 c--- for single top + b, make sure to use two different scales
          if (PDFerrors) then
 !$omp critical(PDFerrors)
-            call InitPDF(currentPDF)
+            call InitPDFm(0,currentPDF)
+            call InitPDFm(1,currentPDF)
             call fdist(ih1,xx(1),facscale_H,fx1_H,0)
             call fdist(ih2,xx(2),facscale_H,fx2_H,1)
             call fdist(ih1,xx(1),facscale_L,fx1_L,0)
@@ -919,7 +920,8 @@ c        else
 c--- usual case            
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx(1),facscale,fx1,0)
               call fdist(ih2,xx(2),facscale,fx2,1)
 !$omp end critical(PDFerrors)
@@ -942,7 +944,8 @@ c--- for single top + b, make sure to use two different scales
      &  .or.(kcase==kdk_4ft)) then
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,x1onz,facscale_H,fx1z_H,0)
               call fdist(ih1,x1onz,facscale_L,fx1z_L,1)
 !$omp end critical(PDFerrors)
@@ -960,7 +963,8 @@ c          else
 c--- usual case            
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,x1onz,facscale,fx1z,0)
 !$omp end critical(PDFerrors)
            else
@@ -979,7 +983,8 @@ c--- for single top + b, make sure to use two different scales
      &  .or.(kcase==kdk_4ft)) then
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih2,x2onz,facscale_H,fx2z_H,0)
               call fdist(ih2,x2onz,facscale_L,fx2z_L,1)
 !$omp end critical(PDFerrors)
@@ -997,7 +1002,8 @@ c          else
 c--- usual case            
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih2,x2onz,facscale,fx2z,0)
 !$omp end critical(PDFerrors)
            else

@@ -680,7 +680,8 @@ c--- calculate PDF's
 c--- for single top + b, make sure to use two different scales
          if (PDFerrors) then
 !$omp critical(PDFerrors)
-            call InitPDF(currentPDF)
+            call InitPDFm(0,currentPDF)
+            call InitPDFm(1,currentPDF)
             call fdist(ih1,xx(1),facscale_H,fx1_H,0)
             call fdist(ih2,xx(2),facscale_H,fx2_H,1)
             call fdist(ih1,xx(1),facscale_L,fx1_L,0)
@@ -708,7 +709,8 @@ c---  (applies only if dynstring = 'DDIS')
           if (dynstring == 'DDIS') then
              if (PDFerrors) then
 !$omp critical(PDFerrors)
-                call InitPDF(currentPDF)
+                call InitPDFm(0,currentPDF)
+                call InitPDFm(1,currentPDF)
                 call fdist(ih1,xx(1),b1scale,fxb1,0)
                 call fdist(ih2,xx(2),q2scale,fx2,1)
                 call fdist(ih1,xx(1),q1scale,fx1,0)
@@ -723,7 +725,8 @@ c---  (applies only if dynstring = 'DDIS')
         else          
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx(1),facscale,fx1,0)
               call fdist(ih2,xx(2),facscale,fx2,1)
 !$omp end critical(PDFerrors)
@@ -736,7 +739,8 @@ c---  (applies only if dynstring = 'DDIS')
 c--- usual case            
            if (PDFerrors) then
 !$omp critical(PDFerrors)
-              call InitPDF(currentPDF)
+              call InitPDFm(0,currentPDF)
+              call InitPDFm(1,currentPDF)
               call fdist(ih1,xx(1),facscale,fx1,0)
               call fdist(ih2,xx(2),facscale,fx2,1)
 !$omp end critical(PDFerrors)

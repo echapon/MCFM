@@ -202,7 +202,8 @@ c--- initialize a PDF set here, if calculating errors
 c--- calculate PDF's  
       if (PDFerrors) then
 !$omp critical(PDFerrors)
-         call InitPDF(currentPDF)
+         call InitPDFm(0,currentPDF)
+         call InitPDFm(1,currentPDF)
          call fdist(ih1,xx(1),facscale,fx1,0)
          call fdist(ih2,xx(2),facscale,fx2,1)
 !$omp end critical(PDFerrors)

@@ -6,7 +6,7 @@ CERNLIB     = /usr/share/cernlib/
 LHAPDFLIB   = /usr/share/lhapdf-6.1.6/lib
 
 # Flag for compiling with OpenMP (YES) or not (anything else)
-USEOMP = YES
+USEOMP = NO
 # Flag for compiling with MPI (YES) or not (anything else)
 # note: USEMPI -> YES automatically puts USEOMP -> YES
 USEMPI = NO
@@ -83,11 +83,11 @@ endif
 
 
 # Flags for compilation
-FFLAGS 	= -fno-f2c -ffixed-line-length-none $(OMPFLAG) -O2 -I$(INCPATH) -I$(MPIDUMMY) -I$(TENSORREDDIR)/Include -I$(OBJNAME)
+FFLAGS 	= -fno-f2c -ffixed-line-length-none $(OMPFLAG) -O2 -I$(INCPATH) -I$(MPIDUMMY) -I$(TENSORREDDIR)/Include -I$(OBJNAME) -g
 # note: -static may be required if read/write libraries not found
 #FFLAGS += -static
 # -fimplicit-none
-F90FLAGS = -fno-f2c $(OMPFLAG) -I$(INCPATH) -I$(OBJNAME) -J$(OBJNAME)
+F90FLAGS = -fno-f2c $(OMPFLAG) -I$(INCPATH) -I$(OBJNAME) -J$(OBJNAME) -g
 
 # If using FROOT package for ROOT ntuples, first specify C++ compiler:
 CXXFLAGS=$(CXXFLAGS0) -Wall $(DROOT) 
