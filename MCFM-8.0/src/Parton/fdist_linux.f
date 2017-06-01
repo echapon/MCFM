@@ -36,7 +36,7 @@ c--- nucleon distribution functions
         ih=1
         nucleon=.true.
         iA=mod(ih_call,1000)
-        iZ=(ih_call-iZ)/1000
+        iZ=(ih_call-iA)/1000
         xA=real(iA,dp)
         xZ=real(iZ,dp)
         if (first) then
