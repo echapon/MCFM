@@ -14,6 +14,13 @@ c      common/piasnumber/repnum
 
       if(iwrp.eq.-10) then
         Aw = a
+c       get the order from the global MCFM parameter
+        if (kpart.eq.klord) then
+           orderw = 1
+        else 
+           orderw = 2
+        endif
+
         Call NextUnitCarlos(openchannelw)
         if (choosew.eq.1) then
         print*, ' DSSZ with', orderw, psetw, Aw, INIDSSZ
@@ -22,13 +29,19 @@ c      common/piasnumber/repnum
         else
         print*, ' No nPDF modifications'
         endif
+
+        if (choosew.eq.1 .OR. choosew.eq.0) then
+           print*, '****************** W A R N I N G ******************'
+           print*, '**                                               **'
+           print*, '** Do NOT try to run in multi-threading, because **'
+           print*, '**                                               **'
+           print*, '**  the EPS09 / DSSZ modifications will fail!!!  **'
+           print*, '**                                               **'
+           print*, '***************************************************'
+        endif
         iwrp=10
        endif
 c       repnum=$3
-
-c       get the order from the global MCFM parameter
-        if (kpart.eq.klord) orderw = 1
-        else orderw = 2
 
         if (Aw.gt.1) then
           if (choosew.eq.1) then

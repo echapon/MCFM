@@ -2262,7 +2262,7 @@ ifeq ($(PDFROUTINES),NATIVE)
    MMHTmstwpdf.o \
    mt.o \
    NNPDFDriver.o \
-   eks98r.o \
+	#  eks98r.o \
    fdist_linux.o \
    pdfwrap_linux.o
    PDFMSG='   ----> MCFM compiled with its own PDFs only <----'

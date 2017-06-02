@@ -13,7 +13,7 @@
 .false.		[writepwg]
 
 [General options to specify the process and execution]
-146	 	[nproc]
+157	 	[nproc]
 'nlo'           [part 'lo','nlo','nnlo','nlocoeff','nnlocoeff']
 'ttbar_lnujj_146_pA_8160_NNPDF30_nlo_as_0118'		['runstring']
 8160d0		[sqrts in GeV]
@@ -48,6 +48,8 @@
 0           	[LHAPDF set 1]
 'NNPDF30_nlo_as_0118.LHgrid'		[LHAPDF group 2]
 0           	[LHAPDF set 2]
+'EPS09'		[nPDF group]
+1           	[nPDF set]
 
 [Jet definition and event cuts]
 0d0		[m34min]
