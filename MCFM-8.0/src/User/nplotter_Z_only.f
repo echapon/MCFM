@@ -122,9 +122,11 @@ c---     xmax:  highest value to bin
 c---       dx:  bin width
 c---   llplot:  equal to "lin"/"log" for linear/log scale
            
-      call bookplot(n,tag,'m34',m34,wt,wt2,0._dp,8000._dp,100._dp,'lin')
+      ! call bookplot(n,tag,'m34',m34,wt,wt2,0._dp,8000._dp,100._dp,'lin')
+      call bookplot(n,tag,'m34',m34,wt,wt2,0._dp,600._dp,10._dp,'lin')
       n=n+1
-      call bookplot(n,tag,'pt3',pt3,wt,wt2,0._dp,4000._dp,50._dp,'lin')
+      ! call bookplot(n,tag,'pt3',pt3,wt,wt2,0._dp,4000._dp,50._dp,'lin')
+      call bookplot(n,tag,'pt3',pt3,wt,wt2,0._dp,400._dp,10._dp,'lin')
       n=n+1
 
       call bookplot(n,tag,'y3',y3,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
@@ -187,6 +189,13 @@ c--- placeholder for lepton FB asymmetry (will be filled properly in histofin)
       call bookplot(n, tag,'lepton +FB+ asymmetry',
      & m34,wt,wt2,200._dp,8000._dp,200._dp,'lin')
       n=n+1
+
+c--- additional binnings for the mass
+      call bookplot(n,tag,'m34',m34,wt,wt2,60._dp,120._dp,1._dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'m34',m34,wt,wt2,0._dp,300._dp,5._dp,'lin')
+      n=n+1
+
 
 
 ************************************************************************
