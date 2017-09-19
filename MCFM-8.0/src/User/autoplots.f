@@ -56,7 +56,7 @@ c--- particle rapidity
         var=yrap(ip,p)
       endif
       call bookplot(n,tag,titley(ip),var,wt,wt2,
-     &              -2.4_dp,2.4_dp,0.24_dp,'lin')
+     &              -3._dp,3._dp,0.2_dp,'lin')
        n=n+1
       
       return
