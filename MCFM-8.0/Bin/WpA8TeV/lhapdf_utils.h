@@ -43,4 +43,20 @@ TGraphAsymmErrors* pdfuncert(vector<TH1F*> h, const char* pdfname) {
    return g;
 }
 
+TGraphAsymmErrors* hist2graph(TH1 *hist, double syst=0) {
+   int n = hist->GetNbinsX();
+   TGraphAsymmErrors *ans = new TGraphAsymmErrors(n);
+   ans->SetName(TString(hist->GetName()) + "_graph");
+   for (int i=0; i<n; i++) {
+      double x = hist->GetBinCenter(i+1);
+      double ex = hist->GetBinWidth(i+1)/2.;
+      double y = hist->GetBinContent(i+1);
+      double ey = sqrt(pow(hist->GetBinError(i+1),2)+syst*syst);
+      ans->SetPoint(i,x,y);
+      ans->SetPointError(i,ex,ex,ey,ey);
+   }
+
+   return ans;
+}
+
 #endif // #ifndef lhapdf_utils_h

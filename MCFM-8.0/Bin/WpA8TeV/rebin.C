@@ -72,11 +72,8 @@ TH1F* rebin(const char* filename, bool dorebin=true)
    return hrebin;
 }
 
-TH1F* chasym(const char* nameplus, const char* nameminus)
+TH1F* chasym(TH1F *hplus, TH1F *hminus)
 {
-   TH1F *hplus = rebin(nameplus);
-   TH1F *hminus = rebin(nameminus);
-
    string hname = string("hasym_") + string(RandomString(8));
 
    TH1F *hasym = new TH1F(hname.c_str(),hname.c_str(),nbins,bins);
@@ -96,10 +93,16 @@ TH1F* chasym(const char* nameplus, const char* nameminus)
    return hasym;
 }
 
-TH1F* a1plus(const char* nameplus)
+TH1F* chasym(const char* nameplus, const char* nameminus)
 {
    TH1F *hplus = rebin(nameplus);
+   TH1F *hminus = rebin(nameminus);
 
+   return chasym(hplus,hminus);
+}
+
+TH1F* a1plus(TH1F *hplus)
+{
    string hname = string("ha1p_") + string(RandomString(8));
 
    TH1F *hasym = new TH1F(hname.c_str(),hname.c_str(),nbins2,bins2);
@@ -125,11 +128,14 @@ TH1F* a1plus(const char* nameplus)
    return hasym;
 }
 
-TH1F* a3(const char* nameplus, const char* nameminus)
+TH1F* a1plus(const char* nameplus)
 {
    TH1F *hplus = rebin(nameplus);
-   TH1F *hminus = rebin(nameminus);
+   return a1plus(hplus);
+}
 
+TH1F* a3(TH1F *hplus, TH1F *hminus)
+{
    string hname = string("ha1p_") + string(RandomString(8));
 
    TH1F *hasym = new TH1F(hname.c_str(),hname.c_str(),nbins2,bins2);
@@ -157,6 +163,14 @@ TH1F* a3(const char* nameplus, const char* nameminus)
    // hasym->Draw();
 
    return hasym;
+}
+
+TH1F* a3(const char* nameplus, const char* nameminus)
+{
+   TH1F *hplus = rebin(nameplus);
+   TH1F *hminus = rebin(nameminus);
+
+   return a3(hplus, hminus);
 }
 
 void reverse(TH1F *hist) {

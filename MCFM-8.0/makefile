@@ -6,7 +6,7 @@ CERNLIB     = /afs/cern.ch/sw/lcg/external/cernlib/2006a/x86_64-slc6-gcc44-opt/l
 LHAPDFLIB   = /afs/cern.ch/user/e/echapon/workspace/private/local/local/lib
 
 # Flag for compiling with OpenMP (YES) or not (anything else)
-USEOMP = YES
+USEOMP = NO
 # Flag for compiling with MPI (YES) or not (anything else)
 # note: USEMPI -> YES automatically puts USEOMP -> YES
 USEMPI = NO

@@ -13,21 +13,30 @@
 #include "TH1F.h"
 #include "TString.h"
 
+#include <vector>
+#include <string>
+#include <map>
+#include <iostream>
+#include <cstdlib>
+
 #define NCT14 57
 #define NEPPS16 97
 
 void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector<Color_t> colors, vector<int> fillstyles, double ymin, double ymax, const char* xtitle, const char* ytitle, const char* cname);
-void plot(TString pdfnames);
+void plot(TString pdfnames, double lumi);
 
 int main(int argc, const char** argv) {
    if (argc<2) {
       cout << "Usage: " << argv[0] << " PDF1,PDF2,..." << endl;
+      cout << "  Optional additional argument: luminosity for pseudo-data (in nb-1)" << endl;
       return -1;
    }
-   plot(argv[1]);
+   double lumi=-1;
+   if (argc==3) lumi = atof(argv[2]);
+   plot(argv[1],lumi);
 }
 
-void plot(TString pdfnames)
+void plot(TString pdfnames, double lumi)
 {
    map<string,bool> Use;
    Use["CT14nlo"]=false;
@@ -62,8 +71,8 @@ void plot(TString pdfnames)
    }
 
    map<string,Color_t> allcolors;
-   allcolors["CT14nlo"] = kBlack;
-   allcolors["EPPS16nlo_CT14nlo_Pb208"] = kRed;
+   allcolors["CT14nlo"] = kRed;
+   allcolors["EPPS16nlo_CT14nlo_Pb208"] = kBlue;
 
    map<string,int> allstyles;
    allstyles["CT14nlo"] = 3004;
@@ -101,6 +110,28 @@ void plot(TString pdfnames)
       fillstyles.push_back(allstyles[tag]);
    }
 
+   if (lumi>0) { // add pseudo-data projection
+      TH1F *hplus = rebin(wpname["EPPS16nlo_CT14nlo_Pb208"][0].c_str());
+      hplus->Scale(lumi);
+      for (int i=1; i<=hplus->GetNbinsX(); i++) hplus->SetBinError(i,sqrt(hplus->GetBinContent(i)));
+      
+      TH1F *hminus = rebin(wmname["EPPS16nlo_CT14nlo_Pb208"][0].c_str());
+      hminus->Scale(lumi);
+      for (int i=1; i<=hminus->GetNbinsX(); i++) hminus->SetBinError(i,sqrt(hminus->GetBinContent(i)));
+
+      // TODO FIXME add systs
+      gps.push_back(hist2graph(hplus));
+      gms.push_back(hist2graph(hminus));
+      gchs.push_back(hist2graph(chasym(hplus,hminus),0.02));
+      ga1ps.push_back(hist2graph(a1plus(hplus),0.02));
+      ga1ms.push_back(hist2graph(a1plus(hminus),0.02));
+      ga3s.push_back(hist2graph(a3(hplus,hminus),0.02));
+
+      names.push_back(Form("Projection (%.0f nb^{-1})",lumi));
+      colors.push_back(kBlack);
+      fillstyles.push_back(0);
+   }
+
    plot_graphs(gps, names, colors, fillstyles, 0, 200, "#eta_{cm}", "d#sigma(W^{+} #rightarrow l^{+}#nu / d#eta_{cm} [nb]","Wp");
    plot_graphs(gms, names, colors, fillstyles, 0, 200, "#eta_{cm}", "d#sigma(W^{-} #rightarrow l^{-}#nu / d#eta_{cm} [nb]","Wm");
    plot_graphs(gchs, names, colors, fillstyles, -0.4, 0.4, "#eta_{cm}", "(N^{+} - N^{-}) / (N^{+} + N^{-})","chasym");
@@ -126,6 +157,8 @@ void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector
       graphs[i]->SetFillColor(colors[i]);
       graphs[i]->SetFillStyle(fillstyles[i]);
       graphs[i]->SetLineColor(colors[i]);
+      graphs[i]->SetMarkerColor(colors[i]);
+
       if (i==0) 
       {
          graphs[i]->GetYaxis()->SetRangeUser(ymin,ymax);
@@ -133,10 +166,11 @@ void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector
          graphs[i]->GetXaxis()->SetTitle(xtitle);
          graphs[i]->Draw("a5");
       }
-      else graphs[i]->Draw("5");
+      else if (!TString(names[i]).Contains("Projection")) graphs[i]->Draw("5");
+      else graphs[i]->Draw("P");
    }
 
-   double x1=0.55, y1=0.17, x2=0.9, y2=0.4;
+   double x1=0.55, y1=0.17, x2=0.88, y2=0.4;
    if (TString(cname)=="A1p" || TString(cname)=="A3") {
       x1=0.2;y1=0.63;x2=0.55;y2=0.86;
    }
@@ -146,8 +180,11 @@ void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector
 
    TLegend *tlegch = new TLegend(x1,y1,x2,y2);
    tlegch->SetBorderSize(0);
-   for (int i=0; i<nh; i++) tlegch->AddEntry(graphs[i],names[i].c_str(),"lpf");
+   for (int i=0; i<nh; i++) {
+      if (!TString(names[i]).Contains("Projection")) tlegch->AddEntry(graphs[i],names[i].c_str(),"lpf");
+      else tlegch->AddEntry(graphs[i],names[i].c_str(),"lp");
+   }
    tlegch->Draw();
 
-   cch->SaveAs(Form("%s.pdf",cname));
+   cch->Print(Form("%s.pdf",cname));
 }
