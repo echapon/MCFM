@@ -1,5 +1,5 @@
 // to compile:
-//   g++ plot_multi.C `lhapdf-config --cflags --libs` `root-config --cflags --libs` -o plot_multi
+//   g++ plot_multi.C `lhapdf-config --cflags --libs` `root-config --cflags --libs` -lAfterImage -o plot_multi
 //
 // to run:
 //   ./plot_multi CT14nlo,EPPS16nlo_CT14nlo_Pb208
@@ -12,12 +12,16 @@
 #include "TGraphAsymmErrors.h"
 #include "TH1F.h"
 #include "TString.h"
+#include "TROOT.h"
 
 #include <vector>
 #include <string>
 #include <map>
 #include <iostream>
 #include <cstdlib>
+
+#include "tdrstyle.C"
+#include "CMS_lumi.C"
 
 #define NCT14 57
 #define NEPPS16 97
@@ -120,30 +124,35 @@ void plot(TString pdfnames, double lumi)
       for (int i=1; i<=hminus->GetNbinsX(); i++) hminus->SetBinError(i,sqrt(hminus->GetBinContent(i)));
 
       // TODO FIXME add systs
+      double syst=0.01; // 0.02
       gps.push_back(hist2graph(hplus));
       gms.push_back(hist2graph(hminus));
-      gchs.push_back(hist2graph(chasym(hplus,hminus),0.02));
-      ga1ps.push_back(hist2graph(a1plus(hplus),0.02));
-      ga1ms.push_back(hist2graph(a1plus(hminus),0.02));
-      ga3s.push_back(hist2graph(a3(hplus,hminus),0.02));
+      gchs.push_back(hist2graph(chasym(hplus,hminus),syst));
+      ga1ps.push_back(hist2graph(a1plus(hplus),syst));
+      ga1ms.push_back(hist2graph(a1plus(hminus),syst));
+      ga3s.push_back(hist2graph(a3(hplus,hminus),syst));
 
-      names.push_back(Form("Projection (%.0f nb^{-1})",lumi));
+      // names.push_back(Form("Projection (%.0f nb^{-1})",lumi));
+      names.push_back("Data");
       colors.push_back(kBlack);
       fillstyles.push_back(0);
    }
 
    plot_graphs(gps, names, colors, fillstyles, 0, 200, "#eta_{cm}", "d#sigma(W^{+} #rightarrow l^{+}#nu / d#eta_{cm} [nb]","Wp");
    plot_graphs(gms, names, colors, fillstyles, 0, 200, "#eta_{cm}", "d#sigma(W^{-} #rightarrow l^{-}#nu / d#eta_{cm} [nb]","Wm");
-   plot_graphs(gchs, names, colors, fillstyles, -0.4, 0.4, "#eta_{cm}", "(N^{+} - N^{-}) / (N^{+} + N^{-})","chasym");
+   plot_graphs(gchs, names, colors, fillstyles, -0.2, 0.3, "#eta_{cm}", "(N^{+} - N^{-}) / (N^{+} + N^{-})","chasym");
    plot_graphs(ga1ps, names, colors, fillstyles, 0.8, 1.6, "#eta_{cm}", "N^{+} (+#eta_{cm}) / N^{+} (-#eta_{cm})","A1p");
    plot_graphs(ga1ms, names, colors, fillstyles, 0.6, 1.1, "#eta_{cm}", "N^{-} (+#eta_{cm}) / N^{-} (-#eta_{cm})","A1m");
-   plot_graphs(ga3s, names, colors, fillstyles, 0.7, 1.4, "#eta_{cm}", "N (+#eta_{cm}) / N (-#eta_{cm})","A3");
+   plot_graphs(ga3s, names, colors, fillstyles, 0.7, 1.25, "#eta_{cm}", "N (+#eta_{cm}) / N (-#eta_{cm})","A3");
 
 }
 
 void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector<Color_t> colors, vector<int> fillstyles, double ymin, double ymax, const char* xtitle, const char* ytitle, const char* cname)
 {
-   TCanvas *cch = new TCanvas(cname);
+	setTDRStyle();
+	gROOT->SetStyle( "tdrStyle" );
+
+   TCanvas *cch = new TCanvas(cname,"",600,600);
    cch->cd();
    
    // checks
@@ -162,16 +171,21 @@ void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector
       if (i==0) 
       {
          graphs[i]->GetYaxis()->SetRangeUser(ymin,ymax);
+         if (!TString(cname).Contains("A")) graphs[i]->GetXaxis()->SetRangeUser(bins[0],bins[nbins]);
+         else graphs[i]->GetXaxis()->SetRangeUser(bins2[0],bins[nbins2]);
          graphs[i]->GetYaxis()->SetTitle(ytitle);
          graphs[i]->GetXaxis()->SetTitle(xtitle);
          graphs[i]->Draw("a5");
       }
-      else if (!TString(names[i]).Contains("Projection")) graphs[i]->Draw("5");
+      else if (!TString(names[i]).Contains("Data")) graphs[i]->Draw("5");
       else graphs[i]->Draw("P");
    }
 
    double x1=0.55, y1=0.17, x2=0.88, y2=0.4;
-   if (TString(cname)=="A1p" || TString(cname)=="A3") {
+   if (TString(cname)=="A3") {
+      x1=0.55;y1=0.68;x2=0.88;y2=0.91;
+   }
+   if (TString(cname)=="A1p") {
       x1=0.2;y1=0.63;x2=0.55;y2=0.86;
    }
    if (TString(cname)=="A1m") {
@@ -179,12 +193,20 @@ void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector
    }
 
    TLegend *tlegch = new TLegend(x1,y1,x2,y2);
+   tlegch->SetHeader("MCFM nlo");
    tlegch->SetBorderSize(0);
+   tlegch->SetTextSize(0.04);
    for (int i=0; i<nh; i++) {
-      if (!TString(names[i]).Contains("Projection")) tlegch->AddEntry(graphs[i],names[i].c_str(),"lpf");
-      else tlegch->AddEntry(graphs[i],names[i].c_str(),"lp");
+      TString label(names[i]);
+      if (label=="EPPS16nlo_CT14nlo_Pb208") label = "EPPS16nlo";
+      if (label.Contains("Data")) tlegch->AddEntry(graphs[i],label.Data(),"lp");
+      else tlegch->AddEntry(graphs[i],label.Data(),"lpf");
    }
    tlegch->Draw();
+
+   extraText = "Projection";
+   writeExtraText = true;
+   CMS_lumi( cch, 111);//, 0 );
 
    cch->Print(Form("%s.pdf",cname));
 }
