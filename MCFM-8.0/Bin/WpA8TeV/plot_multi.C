@@ -23,6 +23,8 @@
 #include "tdrstyle.C"
 #include "CMS_lumi.C"
 
+#define NCT10 53
+#define NEPS09 30
 #define NCT14 57
 #define NEPPS16 97
 
@@ -43,7 +45,9 @@ int main(int argc, const char** argv) {
 void plot(TString pdfnames, double lumi)
 {
    map<string,bool> Use;
+   Use["CT10nlo"]=false;
    Use["CT14nlo"]=false;
+   Use["EPS09nlo"]=false;
    Use["EPPS16nlo_CT14nlo_Pb208"]=false;
 
    TString tok;
@@ -53,6 +57,16 @@ void plot(TString pdfnames, double lumi)
       if (tok=="CT14nlo") {
          Use["CT14nlo"] = true;
          cout << "using CT14nlo" << endl;
+
+      }
+      if (tok=="CT10nlo") {
+         Use["CT10nlo"] = true;
+         cout << "using CT10nlo" << endl;
+
+      }
+      if (tok=="EPS09nlo") {
+         Use["EPS09nlo"] = true;
+         cout << "using EPS09nlo" << endl;
 
       }
       if (tok=="EPPS16nlo_CT14nlo_Pb208") {
@@ -68,18 +82,36 @@ void plot(TString pdfnames, double lumi)
       wmname["CT14nlo"].push_back(Form("CT14nlo/W_only_nlo_CT14nlo_80___80___W6_nlo_CT14nlo_%d.root",i));
    }
 
+   for (int i=0; i<NCT10; i++) {
+      wpname["CT10nlo"].push_back(Form("CT10nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_CT10nlo_%d_1.root",i));
+      wmname["CT10nlo"].push_back(Form("CT10nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_CT10nlo_%d_1.root",i));
+   }
+
    for (int i=0; i<NEPPS16; i++) {
       int i1 = (i<=40) ? 0 : i-40;
       wpname["EPPS16nlo_CT14nlo_Pb208"].push_back(Form("EPPS16nlo/W_only_nlo_CT14nlo_80___80___W1_nlo_EPPS16nlo_%d_%d.root",i1,i));
       wmname["EPPS16nlo_CT14nlo_Pb208"].push_back(Form("EPPS16nlo/W_only_nlo_CT14nlo_80___80___W6_nlo_EPPS16nlo_%d_%d.root",i1,i));
    }
 
+   for (int i=0; i<NCT10; i++) {
+      wpname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_EPS09nlo_%d_%d.root",i,1));
+      wmname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_EPS09nlo_%d_%d.root",i,1));
+   }
+   for (int i=2; i<NEPS09+2; i++) {
+      wpname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_EPS09nlo_%d_%d.root",0,i));
+      wmname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_EPS09nlo_%d_%d.root",0,i));
+   }
+
    map<string,Color_t> allcolors;
+   allcolors["CT10nlo"] = kYellow+2;
+   allcolors["EPS09nlo"] = kGreen+2;
    allcolors["CT14nlo"] = kRed;
    allcolors["EPPS16nlo_CT14nlo_Pb208"] = kBlue;
 
    map<string,int> allstyles;
+   allstyles["CT10nlo"] = 3003;
    allstyles["CT14nlo"] = 3004;
+   allstyles["EPS09nlo"] = 3006;
    allstyles["EPPS16nlo_CT14nlo_Pb208"] = 3005;
 
    vector<TGraphAsymmErrors*> gps, gms, gchs, ga1ps, ga1ms, ga3s; vector<string> names; vector<Color_t> colors; vector<int> fillstyles;
@@ -103,12 +135,21 @@ void plot(TString pdfnames, double lumi)
       }
 
       // now produce the final graphs with uncertainties
-      gps.push_back(pdfuncert(hps,tag.c_str()));
-      gms.push_back(pdfuncert(hms,tag.c_str()));
-      gchs.push_back(pdfuncert(hchs,tag.c_str()));
-      ga1ps.push_back(pdfuncert(ha1ps,tag.c_str()));
-      ga1ms.push_back(pdfuncert(ha1ms,tag.c_str()));
-      ga3s.push_back(pdfuncert(ha3s,tag.c_str()));
+      if (it->first != "EPS09nlo") {
+         gps.push_back(pdfuncert(hps,tag.c_str()));
+         gms.push_back(pdfuncert(hms,tag.c_str()));
+         gchs.push_back(pdfuncert(hchs,tag.c_str()));
+         ga1ps.push_back(pdfuncert(ha1ps,tag.c_str()));
+         ga1ms.push_back(pdfuncert(ha1ms,tag.c_str()));
+         ga3s.push_back(pdfuncert(ha3s,tag.c_str()));
+      } else {
+         gps.push_back(pdfuncert_EPS09(hps,tag.c_str()));
+         gms.push_back(pdfuncert_EPS09(hms,tag.c_str()));
+         gchs.push_back(pdfuncert_EPS09(hchs,tag.c_str()));
+         ga1ps.push_back(pdfuncert_EPS09(ha1ps,tag.c_str()));
+         ga1ms.push_back(pdfuncert_EPS09(ha1ms,tag.c_str()));
+         ga3s.push_back(pdfuncert_EPS09(ha3s,tag.c_str()));
+      }
       names.push_back(tag);
       colors.push_back(allcolors[tag]);
       fillstyles.push_back(allstyles[tag]);
@@ -209,4 +250,6 @@ void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector
    CMS_lumi( cch, 111);//, 0 );
 
    cch->Print(Form("%s.pdf",cname));
+   cch->SaveAs(Form("%s.root",cname));
+   cch->SaveAs(Form("%s.C",cname));
 }

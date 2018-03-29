@@ -43,6 +43,46 @@ TGraphAsymmErrors* pdfuncert(vector<TH1F*> h, const char* pdfname) {
    return g;
 }
 
+TGraphAsymmErrors* pdfuncert_EPS09(vector<TH1F*> h, const char* pdfname) {
+   size_t nm_CT10 = 53;
+   size_t nm_EPS09 = 31;
+   PDFSet pdfset("CT10nlo");
+   int n = h[0]->GetNbinsX();
+   TGraphAsymmErrors *g = new TGraphAsymmErrors(n);
+   g->SetName(Form("%s_pdf",h[0]->GetName()));
+
+   for (int i=0; i<n; i++) { // loop on the bins
+      double x = h[0]->GetBinCenter(i+1);
+      double exl = h[0]->GetBinWidth(i+1)/2.;
+      double exh = exl;
+
+      // loop on the members to get the PDF uncertainty for CT10
+      vector<double> y;
+      for (int j=0; j<nm_CT10; j++) y.push_back(h[j]->GetBinContent(i+1));
+      PDFUncertainty u = pdfset.uncertainty(y);
+
+      // for EPS09, we need to do it by hand.
+      // eq. 5 of the CT10 paper https://arxiv.org/pdf/1007.2241.pdf
+      double dfp=0, dfm=0;
+      for (int j=1; j<nm_EPS09/2; j++) {
+         int j1 = 2*j;
+         int j2 = 2*j+1;
+         dfp += pow(max(max(y[j1]-y[0],y[j2]-y[0]),0.),2);
+         dfm += pow(max(max(y[0]-y[j1],y[0]-y[j2]),0.),2);
+      }
+      dfp = sqrt(dfp);
+      dfm = sqrt(dfm);
+      cout << y[0] << " " << dfp << " " << dfm << endl;
+
+      // set point
+      g->SetPoint(i,x,y[0]);
+      // set error
+      g->SetPointError(i,exl,exh,sqrt(pow(u.errminus,2)+dfm*dfm),sqrt(pow(u.errplus,2)+dfp*dfp));
+   }
+
+   return g;
+}
+
 TGraphAsymmErrors* hist2graph(TH1 *hist, double syst=0) {
    int n = hist->GetNbinsX();
    TGraphAsymmErrors *ans = new TGraphAsymmErrors(n);
