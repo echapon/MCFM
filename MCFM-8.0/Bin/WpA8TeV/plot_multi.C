@@ -27,6 +27,7 @@
 #define NEPS09 30
 #define NCT14 57
 #define NEPPS16 97
+#define NnCTEQ15 33
 
 void plot_graphs(vector<TGraphAsymmErrors*> graphs, vector<string> names, vector<Color_t> colors, vector<int> fillstyles, double ymin, double ymax, const char* xtitle, const char* ytitle, const char* cname);
 void plot(TString pdfnames, double lumi);
@@ -49,6 +50,7 @@ void plot(TString pdfnames, double lumi)
    Use["CT14nlo"]=false;
    Use["EPS09nlo"]=false;
    Use["EPPS16nlo_CT14nlo_Pb208"]=false;
+   Use["nCTEQ15_208_82"]=false;
 
    TString tok;
    Ssiz_t from = 0;
@@ -69,6 +71,11 @@ void plot(TString pdfnames, double lumi)
          cout << "using EPS09nlo" << endl;
 
       }
+      if (tok=="nCTEQ15_208_82") {
+         Use["nCTEQ15_208_82"] = true;
+         cout << "using nCTEQ15nlo" << endl;
+
+      }
       if (tok=="EPPS16nlo_CT14nlo_Pb208") {
          Use["EPPS16nlo_CT14nlo_Pb208"] = true;
          cout << "using EPPS16nlo_CT14nlo_Pb208" << endl;
@@ -85,6 +92,11 @@ void plot(TString pdfnames, double lumi)
    for (int i=0; i<NCT10; i++) {
       wpname["CT10nlo"].push_back(Form("CT10nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_CT10nlo_%d_1.root",i));
       wmname["CT10nlo"].push_back(Form("CT10nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_CT10nlo_%d_1.root",i));
+   }
+
+   for (int i=0; i<NnCTEQ15; i++) {
+      wpname["nCTEQ15_208_82"].push_back(Form("nCTEQ15nlo/W_only_nlo_CT14nlo_80___80___W1_nlo_nCTEQ15nlo_0_%d.root",i));
+      wmname["nCTEQ15_208_82"].push_back(Form("nCTEQ15nlo/W_only_nlo_CT14nlo_80___80___W6_nlo_nCTEQ15nlo_0_%d.root",i));
    }
 
    for (int i=0; i<NEPPS16; i++) {
@@ -106,12 +118,14 @@ void plot(TString pdfnames, double lumi)
    allcolors["CT10nlo"] = kYellow+2;
    allcolors["EPS09nlo"] = kGreen+2;
    allcolors["CT14nlo"] = kRed;
+   allcolors["nCTEQ15_208_82"] = kMagenta;
    allcolors["EPPS16nlo_CT14nlo_Pb208"] = kBlue;
 
    map<string,int> allstyles;
    allstyles["CT10nlo"] = 3003;
    allstyles["CT14nlo"] = 3004;
    allstyles["EPS09nlo"] = 3006;
+   allstyles["nCTEQ15_208_82"] = 3007;
    allstyles["EPPS16nlo_CT14nlo_Pb208"] = 3005;
 
    vector<TGraphAsymmErrors*> gps, gms, gchs, ga1ps, ga1ms, ga3s; vector<string> names; vector<Color_t> colors; vector<int> fillstyles;
