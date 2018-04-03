@@ -45,7 +45,7 @@ TGraphAsymmErrors* pdfuncert(vector<TH1F*> h, const char* pdfname) {
 
 TGraphAsymmErrors* pdfuncert_EPS09(vector<TH1F*> h, const char* pdfname) {
    size_t nm_CT10 = 53;
-   size_t nm_EPS09 = 31;
+   size_t nm_EPS09 = 30;
    PDFSet pdfset("CT10nlo");
    int n = h[0]->GetNbinsX();
    TGraphAsymmErrors *g = new TGraphAsymmErrors(n);
@@ -60,15 +60,18 @@ TGraphAsymmErrors* pdfuncert_EPS09(vector<TH1F*> h, const char* pdfname) {
       vector<double> y;
       for (int j=0; j<nm_CT10; j++) y.push_back(h[j]->GetBinContent(i+1));
       PDFUncertainty u = pdfset.uncertainty(y);
+      for (int j=nm_CT10; j<nm_CT10+nm_EPS09; j++) y.push_back(h[j]->GetBinContent(i+1));
 
       // for EPS09, we need to do it by hand.
       // eq. 5 of the CT10 paper https://arxiv.org/pdf/1007.2241.pdf
       double dfp=0, dfm=0;
-      for (int j=1; j<nm_EPS09/2; j++) {
-         int j1 = 2*j;
-         int j2 = 2*j+1;
+      for (int j=1; j<=nm_EPS09/2; j++) { // from 1 to 15
+         int j1 = nm_CT10-2+2*j;          // from 53 to 81
+         int j2 = nm_CT10-2+2*j+1;        // from 54 to 82
          dfp += pow(max(max(y[j1]-y[0],y[j2]-y[0]),0.),2);
          dfm += pow(max(max(y[0]-y[j1],y[0]-y[j2]),0.),2);
+         // cout << j1 << " " << j2 << ", ";
+         cout << y[0] << " " << y[j1] << " " << y[j2] << ", ";
       }
       dfp = sqrt(dfp);
       dfm = sqrt(dfm);

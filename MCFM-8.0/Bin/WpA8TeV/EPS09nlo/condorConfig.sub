@@ -1,8 +1,8 @@
 executable            = batch.sh
-arguments             = input_W6_nlo_CT10nlo_EPS09nlo_0_0.DAT $(ProcId)
+arguments             = input_W1_nlo_CT10nlo_EPS09nlo_0_0.DAT $(ProcId)
 output                = output/$(ClusterId).$(ProcId).out
 error                 = error/$(ClusterId).$(ProcId).err
 log                   = log/$(ClusterId).log
-+JobFlavour           = "workday"
++JobFlavour           = "tomorrow"
 # RequestCpus           = 8
-queue 87
+queue 85

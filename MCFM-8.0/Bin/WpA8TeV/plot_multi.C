@@ -106,12 +106,12 @@ void plot(TString pdfnames, double lumi)
    }
 
    for (int i=0; i<NCT10; i++) {
-      wpname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_EPS09nlo_%d_%d.root",i,1));
-      wmname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_EPS09nlo_%d_%d.root",i,1));
+      wpname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_EPS09_%d_%d.root",i,1));
+      wmname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_EPS09_%d_%d.root",i,1));
    }
    for (int i=2; i<NEPS09+2; i++) {
-      wpname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_EPS09nlo_%d_%d.root",0,i));
-      wmname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_EPS09nlo_%d_%d.root",0,i));
+      wpname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W1_nlo_EPS09_%d_%d.root",0,i));
+      wmname["EPS09nlo"].push_back(Form("EPS09nlo/W_only_nlo_CT10nlo_80___80___W6_nlo_EPS09_%d_%d.root",0,i));
    }
 
    map<string,Color_t> allcolors;
@@ -124,7 +124,7 @@ void plot(TString pdfnames, double lumi)
    map<string,int> allstyles;
    allstyles["CT10nlo"] = 3003;
    allstyles["CT14nlo"] = 3004;
-   allstyles["EPS09nlo"] = 3006;
+   allstyles["EPS09nlo"] = 3144;
    allstyles["nCTEQ15_208_82"] = 3007;
    allstyles["EPPS16nlo_CT14nlo_Pb208"] = 3005;
 
