@@ -27,7 +27,7 @@ c---                1  --> counterterm for real radiation
       real(dp):: yrap,pt,yraptwo,pttwo,r,phistar
 c---  Z->e+e-(31) or b bbar(33): both measured, rapidities and momenta of 3 and 4 can
 c---  be calculated, also the invariant mass m34
-      real(dp):: y3,y4,y5,y34,pt3,pt4,pt5,pt34,m34,r35
+      real(dp):: y3,y4,y5,y34,y34lM,y34hM,pt3,pt4,pt5,pt34,m34,r35
       real(dp):: costheta,p3(4),p4(4),p34(4)
       real(dp):: phist34
       integer:: switch,n,nplotmax
@@ -51,6 +51,8 @@ c--- set them to dummy values
         y4=1d3
         y5=1d3
         y34=1d3
+        y34lM=1d3
+        y34hM=1d3
         pt3=0._dp
         pt4=0._dp
         pt5=1d3
@@ -79,6 +81,16 @@ c--- Add event in histograms
       pt34=pttwo(3,4,p)
       m34=sqrt((p(3,4)+p(4,4))**2-(p(3,1)+p(4,1))**2
      &         -(p(3,2)+p(4,2))**2-(p(3,3)+p(4,3))**2)
+      if((m34 > 15) .and. (m34 < 60)) then
+         y34lM=y34
+      else
+         y34lM=9999.
+      endif
+      if((m34 > 60) .and. (m34 < 120)) then
+         y34hM=y34
+      else
+         y34hM=9999.
+      endif
       phist34=phistar(3,4,p)
 
       if(jets > 0) then
@@ -151,6 +163,12 @@ c---   llplot:  equal to "lin"/"log" for linear/log scale
       call bookplot(n,tag,'y5',y5,wt,wt2,-3.2_dp,3.2_dp,0.5_dp,'lin')
       n=n+1
       call bookplot(n,tag,'pt5',pt5,wt,wt2,0._dp,100._dp,2._dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'y34',y34,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'y34lM',y34lM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'y34hM',y34hM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
       n=n+1
       
 c--- compute lepton asymmetry as a function of m34  
