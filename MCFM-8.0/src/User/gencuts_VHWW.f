@@ -29,7 +29,7 @@
       gencuts_VHWW=.false.
 !======lepton cuts from input
       ptlepmin=leptpt
-      ylmax=leptrap
+      ylmax=leptrapmax
       metmin=misspt
       metvec(:)=zip
       lepvec(:)=zip

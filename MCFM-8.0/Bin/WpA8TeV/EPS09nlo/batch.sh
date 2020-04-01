@@ -11,14 +11,14 @@ if [ -z $PDFSET2 ]; then PDFSET2=0; fi
 
 # compute PDFSET (for CT10)
 PDFSET=0
-if [ $PDFSET2 -le 56 ]; then
+if [ $PDFSET2 -le 52 ]; then
    # CT10 variations
    PDFSET=$PDFSET2
    PDFSET2=1
 else
    # EPS09 variations
    PDFSET=0
-   PDFSET2=$(( $PDFSET2 - 55 ))
+   PDFSET2=$(( $PDFSET2 - 53 ))
 fi
 
 source $MCFMHOME/setup.sh

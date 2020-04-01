@@ -12,10 +12,12 @@
 *                                                                      *
 *   Only a basic set of variables is tested:                           *
 *     pt(lepton) > leptpt, eta(lepton) < leptrap, missing Et > misspt  *
+*     EDIT leptrapmin < eta(lepton) < leptrapmax                       *
 *                                                                      *
 *   If leptpt2 or leptrap2 is not zero, then any leptons beyond the    *
 *   leading-pt one must instead satisfy:                               *
 *     pt(lepton) > leptpt2, eta(lepton) < leptrap2                     *
+*     EDIT leptrap2min < eta(lepton) < leptrap2max                     *
 *                                                                      *
 *   For processes where one would like to apply jet-like cuts, but     *
 *   no clustering has been performed, additional cuts apply:           *
@@ -53,7 +55,7 @@
       real(dp):: ht,qeta,mlbnu,merecon,reconcorr
       real(dp):: dphi_ll,m_ll,mtrans,scut1,scut2
       real(dp):: phill,phillcut,etajet2cut,mllcut,mnulcut
-      real(dp):: mZjcut,ptcheck,aetacheck
+      real(dp):: mZjcut,ptcheck,etacheck,aetacheck
       integer:: ilep,igam,inu,countljet, countbjet,reconstr_top
       real(dp):: pljet(mxpart,4),pbjet(mxpart,4)
       common/stopvars/ht,qeta,mlbnu,merecon,reconcorr
@@ -108,14 +110,18 @@ c--- write-out the cuts we are using
       write(6,*)  '*                                                  *'
       write(6,99) '*        pt(lepton)      >   ',leptpt,
      &                ' GeV            *'
-      write(6,99) '*      |eta(lepton)|     <   ',leptrap,
+      write(6,99) '*      eta(lepton)       >   ',leptrapmin,
+     &                '                *'
+      write(6,99) '*      eta(lepton)       <   ',leptrapmax,
      &                '                *'
       write(6,99) '*       pt(missing)      >   ',misspt,
      &                ' GeV            *'
-      if ((leptpt2 .ne. zip) .or. (leptrap2 .ne. zip)) then
+      if ((leptpt2 .ne. zip) .or. (leptrap2min .ne. zip)) then
       write(6,99) '*     pt(2nd lepton)    >   ',leptpt2,
      &                ' GeV            *'
-      write(6,99) '*   |eta(2nd lepton)|   <   ',leptrap2,
+      write(6,99) '*   eta(2nd lepton)     >   ',leptrap2min,
+     &                '                *'
+      write(6,99) '*   eta(2nd lepton)     <   ',leptrap2max,
      &                '                *'
       endif
       if     (kcase==kWgamma) then
@@ -182,7 +188,9 @@ C     Basic pt and rapidity cuts for lepton
       if     (countlept == 1) then
           ptcheck=pt(leptindex(1),pjet)
           aetacheck=abs(etarap(leptindex(1),pjet))
-          if ((ptcheck < leptpt) .or. (aetacheck > leptrap)) then
+          etacheck=etarap(leptindex(1),pjet)
+          if ((ptcheck < leptpt) .or. (etacheck < leptrapmin) .or.
+     &       (etacheck > leptrapmax)) then
             gencuts_input=.true.
             return
           endif
@@ -199,7 +207,9 @@ c--- loop over all the lepton possibilities for lepton 1 (j)
           passedlept=.true.
           ptcheck=pt(leptindex(j),pjet)
           aetacheck=abs(etarap(leptindex(j),pjet))
-          if ((ptcheck < leptpt) .or. (aetacheck > leptrap)) then
+          etacheck=etarap(leptindex(j),pjet)
+          if ((ptcheck < leptpt) .or. (etacheck < leptrapmin) .or.
+     &       (etacheck > leptrapmax)) then
             passedlept=.false.
             goto 78
           endif
@@ -212,7 +222,9 @@ c--- loop over all the lepton possibilities for lepton 1 (j)
             if (k .ne. j) then
              ptcheck=pt(leptindex(k),pjet)
              aetacheck=abs(etarap(leptindex(k),pjet))
-              if ((ptcheck< leptpt2).or.(aetacheck> leptrap2))then
+             etacheck=etarap(leptindex(k),pjet)
+              if ((ptcheck < leptpt2) .or. (etacheck < leptrap2min) .or.
+     &           (etacheck > leptrap2max)) then
                 passedlept=.false.
               endif
               if ((aetacheck > leptveto2min) .and.

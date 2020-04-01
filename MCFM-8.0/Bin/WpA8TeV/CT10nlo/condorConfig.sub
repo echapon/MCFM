@@ -1,5 +1,5 @@
 executable            = batch.sh
-arguments             = input_W1_nlo_CT10nlo_0_0.DAT $(ProcId)
+arguments             = input_W6_nlo_CT10nlo_0_0.DAT $(ProcId)
 output                = output/$(ClusterId).$(ProcId).out
 error                 = error/$(ClusterId).$(ProcId).err
 log                   = log/$(ClusterId).log

@@ -334,8 +334,11 @@ c--- catch special scale choices for stop+b process
       if ((tag == 'leptpt') .or. (writeall)) then
       write(unitno,fmt=f99) leptpt,'leptpt'
       endif
-      if ((tag == 'leptrap') .or. (writeall)) then
-      write(unitno,fmt=f99) leptrap,'leptrap'
+      if ((tag == 'leptrapmin') .or. (writeall)) then
+      write(unitno,fmt=f99) leptrapmin,'leptrapmin'
+      endif
+      if ((tag == 'leptrapmax') .or. (writeall)) then
+      write(unitno,fmt=f99) leptrapmax,'leptrapmax'
       endif
       if ((tag == 'leptveto') .or. (writeall)) then
       write(unitno,fmt=f95) leptveto1min,leptveto1max,'leptveto'
@@ -346,8 +349,11 @@ c--- catch special scale choices for stop+b process
       if ((tag == 'leptpt2') .or. (writeall)) then
       write(unitno,fmt=f99) leptpt2,'leptpt2'
       endif
-      if ((tag == 'leptrap2') .or. (writeall)) then
-      write(unitno,fmt=f99) leptrap2,'leptrap2'
+      if ((tag == 'leptrap2min') .or. (writeall)) then
+      write(unitno,fmt=f99) leptrap2min,'leptrap2min'
+      endif
+      if ((tag == 'leptrap2max') .or. (writeall)) then
+      write(unitno,fmt=f99) leptrap2max,'leptrap2max'
       endif
       if ((tag == 'leptveto2') .or. (writeall)) then
       write(unitno,fmt=f95) leptveto2min,leptveto2max,'leptveto2'

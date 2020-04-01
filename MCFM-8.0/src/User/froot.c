@@ -113,7 +113,9 @@ void initrootnt_(const char *title, const char *access, int ltitle, int laccess)
 //                             If no file exists, it is created.
 //           = 'READ'          open an existing file for reading (default).
 {
-  char *appName="FROOT.C";
+  const char* cst_appName="FROOT.C";
+  char appName[32];
+  strcpy(appName,cst_appName);
   int apprgc=1; 
   char *appargv[]={appName};
   app=new TApplication("App", &apprgc, appargv);

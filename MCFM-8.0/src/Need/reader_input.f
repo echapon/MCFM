@@ -367,16 +367,20 @@ c--- jets and cuts options
       if (verbose) call writeinput(6,' * ',' ','makecuts')
       read(20,*) leptpt
       if (verbose) call writeinput(6,' * ',' ','leptpt')
-      read(20,*) leptrap
-      if (verbose) call writeinput(6,' * ',' ','leptrap')
+      read(20,*) leptrapmin
+      if (verbose) call writeinput(6,' * ',' ','leptrapmin')
+      read(20,*) leptrapmax
+      if (verbose) call writeinput(6,' * ',' ','leptrapmax')
       read(20,*) leptveto1min,leptveto1max
       if (verbose) call writeinput(6,' * ',' ','leptveto')
       read(20,*) misspt
       if (verbose) call writeinput(6,' * ',' ','misspt')
       read(20,*) leptpt2
       if (verbose) call writeinput(6,' * ',' ','leptpt2')
-      read(20,*) leptrap2
-      if (verbose) call writeinput(6,' * ',' ','leptrap2')
+      read(20,*) leptrap2min
+      if (verbose) call writeinput(6,' * ',' ','leptrap2min')
+      read(20,*) leptrap2max
+      if (verbose) call writeinput(6,' * ',' ','leptrap2max')
       read(20,*) leptveto2min,leptveto2max
       if (verbose) call writeinput(6,' * ',' ','leptveto2')
       read(20,*) mtrans34cut

@@ -52,7 +52,7 @@ c -- write out cuts
       write(*,*) '* '
       write(*,*) '*Lepton cuts:'
       write(*,*) '*pt,lepton > ', leptpt
-      write(*,*) '* | eta,lepton| < ', leptrap
+      write(*,*) '* | eta,lepton| < ', leptrapmax
       write(*,*) mllmin, ' < m_ll < ',mllmax
       write(*,*) '*Lepton isolation: for all objects within ',Rleptisol,
      &     ' of a *lepton'
@@ -96,7 +96,7 @@ c     -- lepton cuts
          ST=ST+pt(k,pjet)
 c     -- pt and rap
          if ( (pt(k,pjet) <= leptpt) .or. 
-     &        (abs(etarap(k,pjet)) >= leptrap) ) then
+     &        (abs(etarap(k,pjet)) >= leptrapmax) ) then
             gencuts_Zt=.true.
             return
          endif

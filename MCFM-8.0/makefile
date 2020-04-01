@@ -1,9 +1,11 @@
 # Makefile routine.
 
 # Replace this with the location of Cernlib on your system (if desired)
-CERNLIB     = /afs/cern.ch/sw/lcg/external/cernlib/2006a/x86_64-slc6-gcc44-opt/lib/
+#  CERNLIB     = /afs/cern.ch/sw/lcg/external/cernlib/2006a/x86_64-slc6-gcc44-opt/lib/
+CERNLIB     = /cvmfs/sft.cern.ch/lcg/external/cernlib/2006b/i686-centos7-gcc48-opt/lib/
 # Replace this with the location of LHAPDF on your system (if desired)
-LHAPDFLIB   = /afs/cern.ch/user/e/echapon/workspace/private/local/local/lib
+#  LHAPDFLIB   = /afs/cern.ch/user/e/echapon/workspace/private/local/local/lib
+LHAPDFLIB   = /afs/cern.ch/work/e/echapon/public/LHAPDF/6.2.3/lib
 
 # Flag for compiling with OpenMP (YES) or not (anything else)
 USEOMP = NO
@@ -62,7 +64,7 @@ PDFROUTINES = LHAPDF
 #   YES -- n-tuples, unweighting available - requires CERNLIB libraries
 #   FROOT -- n-tuples, unweighting available -- requires ROOT libraries;
 #            output uses the FROOT package of P. Nadolsky.
-NTUPLES = YES
+NTUPLES = NO
 
 ifeq ($(origin FC),environment)
     $(info Inheriting FC, CXX from environment)
@@ -90,6 +92,7 @@ FFLAGS 	= -fno-f2c -ffixed-line-length-none $(OMPFLAG) -O2 -I$(INCPATH) -I$(MPID
 F90FLAGS = -fno-f2c $(OMPFLAG) -I$(INCPATH) -I$(OBJNAME) -J$(OBJNAME) -g
 
 # If using FROOT package for ROOT ntuples, first specify C++ compiler:
+DROOT= $(shell root-config --cflags)
 CXXFLAGS=$(CXXFLAGS0) -Wall $(DROOT) 
 # ROOTLIBS and ROOTINCLUDE are locations of ROOT libraries and header files.
 # Find the ROOT libraries and include directory automatically by running root-config 
