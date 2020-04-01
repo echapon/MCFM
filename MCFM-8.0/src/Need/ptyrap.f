@@ -101,6 +101,31 @@ c--- computes either pt or et, depending on the value of useEt
       return
       end
 
+      function phistar(j,k,p)
+      implicit none
+      include 'types.f'
+      real(dp):: phistar
+c--- phistar variable
+      
+      include 'constants.f'
+      include 'nf.f'
+      include 'mxpart.f'
+      include 'cplx.h'
+      integer:: j,k
+      real(dp):: p(mxpart,4)
+      real(dp):: eta1,eta2,phi1,phi2,etarap
+
+      eta1 = etarap(j,p)
+      eta2 = etarap(k,p)
+      phi1 = atan2(p(j,3),p(j,2))
+      phi2 = atan2(p(k,3),p(k,2))
+      phistar = tan((pi-abs(phi1-phi2))/2) *
+     & sin(acos(tanh(abs(eta1-eta2)/2)))
+
+
+      return
+      end
+
       function etarap(j,p)
       implicit none
       include 'types.f'

@@ -24,11 +24,12 @@ c---                1  --> counterterm for real radiation
       include 'jetlabel.f'
       include 'outputflags.f'
       real(dp):: p(mxpart,4),wt,wt2
-      real(dp):: yrap,pt,yraptwo,pttwo,r
+      real(dp):: yrap,pt,yraptwo,pttwo,r,phistar
 c---  Z->e+e-(31) or b bbar(33): both measured, rapidities and momenta of 3 and 4 can
 c---  be calculated, also the invariant mass m34
       real(dp):: y3,y4,y5,y34,pt3,pt4,pt5,pt34,m34,r35
       real(dp):: costheta,p3(4),p4(4),p34(4)
+      real(dp):: phist34
       integer:: switch,n,nplotmax
       integer tag
       logical, save::first=.true.
@@ -57,6 +58,7 @@ c--- set them to dummy values
         m34=0._dp
         r35=1d3
         jets=1
+        phist34=-1d0
         goto 99
       else
 c--- Add event in histograms
@@ -77,6 +79,7 @@ c--- Add event in histograms
       pt34=pttwo(3,4,p)
       m34=sqrt((p(3,4)+p(4,4))**2-(p(3,1)+p(4,1))**2
      &         -(p(3,2)+p(4,2))**2-(p(3,3)+p(4,3))**2)
+      phist34=phistar(3,4,p)
 
       if(jets > 0) then
          pt5=pt(5,p)
@@ -126,7 +129,7 @@ c---   llplot:  equal to "lin"/"log" for linear/log scale
       call bookplot(n,tag,'m34',m34,wt,wt2,0._dp,600._dp,10._dp,'lin')
       n=n+1
       ! call bookplot(n,tag,'pt3',pt3,wt,wt2,0._dp,4000._dp,50._dp,'lin')
-      call bookplot(n,tag,'pt3',pt3,wt,wt2,0._dp,400._dp,10._dp,'lin')
+      call bookplot(n,tag,'pt3',pt3,wt,wt2,0._dp,200._dp,2._dp,'lin')
       n=n+1
 
       call bookplot(n,tag,'y3',y3,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
@@ -196,6 +199,13 @@ c--- additional binnings for the mass
       call bookplot(n,tag,'m34',m34,wt,wt2,0._dp,300._dp,5._dp,'lin')
       n=n+1
 
+c--- phistar
+      call bookplot(n,tag,'phist34',phist34,wt,wt2,
+     & 0._dp,1._dp,0.01_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'phist34',phist34,wt,wt2,
+     & 0._dp,3._dp,0.05_dp,'lin')
+      n=n+1
 
 
 ************************************************************************
