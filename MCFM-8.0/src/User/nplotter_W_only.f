@@ -131,12 +131,32 @@ c---   llplot:  equal to "lin"/"log" for linear/log scale
        call bookplot(n,tag,'W ps-rap',eta34,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
        n=n+1
       if(nproc == 1) then
-         call bookplot(n,tag,'y(lep)',y4,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+         call bookplot(n,tag,'y(lep)',y4,wt,wt2,-4._dp,4._dp,0.1_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y4,wt,wt2,-3._dp,-2._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y4,wt,wt2,-2._dp,-1._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y4,wt,wt2,-1._dp,0._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y4,wt,wt2,0._dp,1._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y4,wt,wt2,1._dp,2._dp,0.01_dp,'lin')
          n=n+1
          call bookplot(n,tag,'pt(lep)',pt4,wt,wt2,0._dp,100._dp,2._dp,'lin')
          n=n+1
       else            
          call bookplot(n,tag,'y(lep)',y3,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y3,wt,wt2,-3._dp,-2._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y3,wt,wt2,-2._dp,-1._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y3,wt,wt2,-1._dp,0._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y3,wt,wt2,0._dp,1._dp,0.01_dp,'lin')
+         n=n+1
+         call bookplot(n,tag,'y(lep)',y3,wt,wt2,1._dp,2._dp,0.01_dp,'lin')
          n=n+1
          call bookplot(n,tag,'pt(lep)',pt3,wt,wt2,0._dp,100._dp,2._dp,'lin')
          n=n+1
