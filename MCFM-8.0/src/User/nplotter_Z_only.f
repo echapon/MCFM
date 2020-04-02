@@ -27,9 +27,10 @@ c---                1  --> counterterm for real radiation
       real(dp):: yrap,pt,yraptwo,pttwo,r,phistar
 c---  Z->e+e-(31) or b bbar(33): both measured, rapidities and momenta of 3 and 4 can
 c---  be calculated, also the invariant mass m34
-      real(dp):: y3,y4,y5,y34,y34lM,y34hM,pt3,pt4,pt5,pt34,m34,r35
+      real(dp):: y3,y4,y5,y34,pt3,pt4,pt5,pt34,m34,r35
       real(dp):: costheta,p3(4),p4(4),p34(4)
       real(dp):: phist34
+      real(dp):: y34lM,y34hM,pt34lM,pt34hM,phist34lM,phist34hM
       integer:: switch,n,nplotmax
       integer tag
       logical, save::first=.true.
@@ -81,17 +82,25 @@ c--- Add event in histograms
       pt34=pttwo(3,4,p)
       m34=sqrt((p(3,4)+p(4,4))**2-(p(3,1)+p(4,1))**2
      &         -(p(3,2)+p(4,2))**2-(p(3,3)+p(4,3))**2)
+      phist34=phistar(3,4,p)
       if((m34 > 15) .and. (m34 < 60)) then
          y34lM=y34
+         pt34lM=pt34
+         phist34lM=phist34
       else
-         y34lM=9999.
+         y34lM=-9999.
+         pt34lM=-9999.
+         phist34lM=-9999.
       endif
       if((m34 > 60) .and. (m34 < 120)) then
          y34hM=y34
+         pt34hM=pt34
+         phist34hM=phist34
       else
-         y34hM=9999.
+         y34hM=-9999.
+         pt34hM=-9999.
+         phist34hM=-9999.
       endif
-      phist34=phistar(3,4,p)
 
       if(jets > 0) then
          pt5=pt(5,p)
@@ -166,10 +175,6 @@ c---   llplot:  equal to "lin"/"log" for linear/log scale
       n=n+1
       call bookplot(n,tag,'y34',y34,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
       n=n+1
-      call bookplot(n,tag,'y34lM',y34lM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
-      n=n+1
-      call bookplot(n,tag,'y34hM',y34hM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
-      n=n+1
       
 c--- compute lepton asymmetry as a function of m34  
 c--- (see for example Eq.(3) of PLB718 (2013) 752)
@@ -222,6 +227,32 @@ c--- phistar
      & 0._dp,1._dp,0.01_dp,'lin')
       n=n+1
       call bookplot(n,tag,'phist34',phist34,wt,wt2,
+     & 0._dp,3._dp,0.05_dp,'lin')
+      n=n+1
+
+c--- low mass plots (15 < M < 60 GeV)
+      call bookplot(n,tag,'y34lM',y34lM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'pt34lM',pt34lM,wt,wt2,
+     &   0._dp,50._dp,2._dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'phist34lM',phist34lM,wt,wt2,
+     & 0._dp,1._dp,0.01_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'phist34lM',phist34lM,wt,wt2,
+     & 0._dp,3._dp,0.05_dp,'lin')
+      n=n+1
+
+c--- low mass plots (60 < M < 120 GeV)
+      call bookplot(n,tag,'y34hM',y34hM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'pt34hM',pt34hM,wt,wt2,
+     &   0._dp,50._dp,2._dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'phist34hM',phist34hM,wt,wt2,
+     & 0._dp,1._dp,0.01_dp,'lin')
+      n=n+1
+      call bookplot(n,tag,'phist34hM',phist34hM,wt,wt2,
      & 0._dp,3._dp,0.05_dp,'lin')
       n=n+1
 
