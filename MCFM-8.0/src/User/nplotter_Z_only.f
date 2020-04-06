@@ -30,7 +30,7 @@ c---  be calculated, also the invariant mass m34
       real(dp):: y3,y4,y5,y34,pt3,pt4,pt5,pt34,m34,r35
       real(dp):: costheta,p3(4),p4(4),p34(4)
       real(dp):: phist34
-      real(dp):: y34lM,y34hM,pt34lM,pt34hM,phist34lM,phist34hM
+      real(dp):: y34lM,y34hM,pt34lM,pt34hM,phist34lM,phist34hM,m34cut
       integer:: switch,n,nplotmax
       integer tag
       logical, save::first=.true.
@@ -52,8 +52,6 @@ c--- set them to dummy values
         y4=1d3
         y5=1d3
         y34=1d3
-        y34lM=1d3
-        y34hM=1d3
         pt3=0._dp
         pt4=0._dp
         pt5=1d3
@@ -62,6 +60,12 @@ c--- set them to dummy values
         r35=1d3
         jets=1
         phist34=-1d0
+        y34lM=1d3
+        y34hM=1d3
+        pt34lM=-1d3
+        pt34hM=-1d3
+        phist34lM=-1d3
+        phist34hM=-1d3
         goto 99
       else
 c--- Add event in histograms
@@ -83,21 +87,35 @@ c--- Add event in histograms
       m34=sqrt((p(3,4)+p(4,4))**2-(p(3,1)+p(4,1))**2
      &         -(p(3,2)+p(4,2))**2-(p(3,3)+p(4,3))**2)
       phist34=phistar(3,4,p)
+
+      if((y34>-2.87) .and. (y34<1.93)) then
+         m34cut=m34
+      else
+         m34cut=-9999.
+      endif
+      
       if((m34 > 15) .and. (m34 < 60)) then
          y34lM=y34
-         pt34lM=pt34
-         phist34lM=phist34
       else
          y34lM=-9999.
-         pt34lM=-9999.
-         phist34lM=-9999.
       endif
       if((m34 > 60) .and. (m34 < 120)) then
          y34hM=y34
+      else
+         y34hM=-9999.
+      endif
+      
+      if((m34cut > 15) .and. (m34cut < 60)) then
+         pt34lM=pt34
+         phist34lM=phist34
+      else
+         pt34lM=-9999.
+         phist34lM=-9999.
+      endif
+      if((m34cut > 60) .and. (m34cut < 120)) then
          pt34hM=pt34
          phist34hM=phist34
       else
-         y34hM=-9999.
          pt34hM=-9999.
          phist34hM=-9999.
       endif
@@ -167,7 +185,8 @@ c---   llplot:  equal to "lin"/"log" for linear/log scale
       n=n+1
       call bookplot(n, tag,'m34',m34,wt,wt2,70._dp,110._dp,0.5_dp,'lin')
       n=n+1
-      call bookplot(n,tag,'DeltaR35',r35,wt,wt2,0._dp,5._dp,0.1_dp,'lin')
+      call bookplot(n,tag,'DeltaR35',r35,wt,wt2,
+     & 0._dp,5._dp,0.1_dp,'lin')
       n=n+1
       call bookplot(n,tag,'y5',y5,wt,wt2,-3.2_dp,3.2_dp,0.5_dp,'lin')
       n=n+1
@@ -231,7 +250,8 @@ c--- phistar
       n=n+1
 
 c--- low mass plots (15 < M < 60 GeV)
-      call bookplot(n,tag,'y34lM',y34lM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+      call bookplot(n,tag,'y34lM',y34lM,wt,wt2,
+     & -6._dp,6._dp,0.2_dp,'lin')
       n=n+1
       call bookplot(n,tag,'pt34lM',pt34lM,wt,wt2,
      &   0._dp,50._dp,2._dp,'lin')
@@ -244,7 +264,8 @@ c--- low mass plots (15 < M < 60 GeV)
       n=n+1
 
 c--- low mass plots (60 < M < 120 GeV)
-      call bookplot(n,tag,'y34hM',y34hM,wt,wt2,-6._dp,6._dp,0.2_dp,'lin')
+      call bookplot(n,tag,'y34hM',y34hM,wt,wt2,
+     & -6._dp,6._dp,0.2_dp,'lin')
       n=n+1
       call bookplot(n,tag,'pt34hM',pt34hM,wt,wt2,
      &   0._dp,50._dp,2._dp,'lin')
@@ -254,6 +275,14 @@ c--- low mass plots (60 < M < 120 GeV)
       n=n+1
       call bookplot(n,tag,'phist34hM',phist34hM,wt,wt2,
      & 0._dp,3._dp,0.05_dp,'lin')
+      n=n+1
+
+c--- mass plots with y34 cut
+      call bookplot(n,tag,'m34cut',m34cut,wt,wt2,
+     & 0._dp,600._dp,10._dp,'lin')
+      n=n+1
+      call bookplot(n, tag,'m34cut',m34cut,wt,wt2,
+     & 70._dp,110._dp,0.5_dp,'lin')
       n=n+1
 
 
